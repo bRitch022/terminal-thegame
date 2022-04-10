@@ -1,4 +1,14 @@
-// Test File
+/**
+ * @file clitest.cpp
+ * @brief Contains version control information for releases
+ * @copyright 
+ * Copyright 2022, Ridgetech, LLC.. This software and its contents are 
+ * Ridgetech confidental and proprietary. It cannot be used, disclosed 
+ * or distributed without Ridgetech's prior written permission. Modification 
+ * of this software is only allowed at the direction of Ridgetech.
+ * All allowed modifications must be provided back to Ridgetech.
+ * 
+ */
 
 #include <cli/cli.h>
 #include <cli/clifilesession.h>
