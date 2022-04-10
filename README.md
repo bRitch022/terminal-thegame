@@ -13,6 +13,10 @@ This is a Linux-teaching game engine. This framework can be built onto to teach 
 ## Cleaning
 * ```make clean```
 
+## Credits
+daniele77 cli @ https://github.com/daniele77/cli
+
+
 # Release Notes
 ### 01.00.0001
 * 
