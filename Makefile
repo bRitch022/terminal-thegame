@@ -34,10 +34,12 @@ ifeq ($(DEBUG), 1)
 	CFLAGS += -g
 	DEBUG_NAME = .dbg
 endif
- 
+
+# Virtual paths for building .cpp->.o files
 vpath %.cpp $(TEST_DIR)
 vpath %.cpp $(SRC_DIR)
 
+# Make Targets
 .PHONY: all test clean clobber
 
 $(EXEC_MD5): $(EXEC)
