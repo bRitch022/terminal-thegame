@@ -1,17 +1,20 @@
-{
-    "whoami": {
+[
+    {
+        "cmd":"whoami", 
         "info":"Print the current user",
         "options":[
             {"long":"--help","info":"Print the user name associated with the current effective user ID"}
         ]
     },
-    "pwd": {
+    { 
+        "cmd":"pwd",
         "info":"Print the current working directory.",
         "options":[
             {"long":"--help","info":"Print the current working directory."}
         ]
     },
-    "ls": {
+    {
+        "cmd":"ls",
         "info":"List information about the FILEs (the current directory by default).",
         "usage":"Usage: ls [OPTION]... [FILE]...",
         "options":[
@@ -26,7 +29,8 @@
             {"cmd":"ls -lath","info":"Lists contents of current working directory, to include hidden files, with details in list form, in chronological order and with sizes in human readable form"}
         ]
     },
-    "cd": {
+    {
+        "cmd":"cd",
         "info":"Change the working directory",
         "options":[
             {"long":"--help","info":"Change the working directory"}
@@ -37,7 +41,8 @@
             {"cmd":"cd ~/testdir/","info":"Change working directory to /home/<username>/testdir"}
         ]
     },
-    "cat": {
+    {
+        "cmd":"cat",
         "info":"Print FILE(s) to standard output",
         "usage":"Usage: cat [OPTION]... [FILE]...",
         "options":[
@@ -49,7 +54,8 @@
             {"cmd":"cat -n file.txt","info":"Output contents of file.txt with line numbers"}
         ]
     },
-    "grep": {
+    {
+        "cmd":"grep",
         "info":"Search for PATTERNS in each FILE",
         "usage":"Usage: grep [OPTION]... PATTERNS [FILE]...",
         "options":[
@@ -65,4 +71,4 @@
             {"cmd":"grep -w \"cell phone\" phoneNumbers.txt","info":"Search for whole keyword \"cell phone\" in phoneNumbers.txt"}
         ]
     }
-}
+]
