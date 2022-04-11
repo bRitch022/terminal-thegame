@@ -1,0 +1,68 @@
+{
+    "whoami": {
+        "info":"Print the current user",
+        "options":[
+            {"long":"--help","info":"Print the user name associated with the current effective user ID"}
+        ]
+    },
+    "pwd": {
+        "info":"Print the current working directory.",
+        "options":[
+            {"long":"--help","info":"Print the current working directory."}
+        ]
+    },
+    "ls": {
+        "info":"List information about the FILEs (the current directory by default).",
+        "usage":"Usage: ls [OPTION]... [FILE]...",
+        "options":[
+            { "short":"-l","info":"use a long listing format"},
+            { "short":"-a","long":"--all","info":"do not ignore entries starting with ."},
+            { "short":"-t","info":"sort by modification time, newest first"},
+            { "short":"-h","long":"--human-readable","info":"with -l and -s, print sizes like 1K 234M 2G etc."}
+        ],
+        "examples":[
+            {"cmd":"ls -l","info":"Lists contents of current working directory with details in list form"},
+            {"cmd":"ls -a","info":"Lists contents of current working directory, to include hidden files"},
+            {"cmd":"ls -lath","info":"Lists contents of current working directory, to include hidden files, with details in list form, in chronological order and with sizes in human readable form"}
+        ]
+    },
+    "cd": {
+        "info":"Change the working directory",
+        "options":[
+            {"long":"--help","info":"Change the working directory"}
+        ],
+        "examples":[
+            {"cmd":"cd","info":"Change working directory to the home directory"},
+            {"cmd":"cd ~","info":"Change working directory to the home directory"},
+            {"cmd":"cd ~/testdir/","info":"Change working directory to /home/<username>/testdir"}
+        ]
+    },
+    "cat": {
+        "info":"Print FILE(s) to standard output",
+        "usage":"Usage: cat [OPTION]... [FILE]...",
+        "options":[
+            {"short":"-n","long":"--number","info":"number all output lines"},
+            {"long":"--help","info":"display this help and exit"},
+            {"long":"--version","info":"output version information and exit"}
+        ],
+        "examples":[
+            {"cmd":"cat -n file.txt","info":"Output contents of file.txt with line numbers"}
+        ]
+    },
+    "grep": {
+        "info":"Search for PATTERNS in each FILE",
+        "usage":"Usage: grep [OPTION]... PATTERNS [FILE]...",
+        "options":[
+            {"short":"-E","long":"--extended-regexp","info":"PATTERNS are extended regular expressions"},
+            {"short":"-r","long":"--recursive","info":"take PATTERNS from files in all directories downstream from working directory"},
+            {"short":"-w","long":"--word-regexp","info":"match only whole words"},
+            {"long":"--help","info":"display this help and exit"}
+        ],
+        "examples":[
+            {"cmd":"grep \"cell\" phoneNumbers.txt","info":"Search for keyword \"cell\" in phoneNumbers.txt"},
+            {"cmd":"grep -E \"cell|home\" phoneNumbers.txt","info":"Search for keywords \"cell\" and \"home\" in phoneNumbers.txt"},
+            {"cmd":"grep -rE \"cell|home\" ~/*","info":"Search for keywords \"cell\" and \"home\" in all files starting from the home directory"},
+            {"cmd":"grep -w \"cell phone\" phoneNumbers.txt","info":"Search for whole keyword \"cell phone\" in phoneNumbers.txt"}
+        ]
+    }
+}
