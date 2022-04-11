@@ -1,3 +1,6 @@
 [submodule "src/cli"]
 	path = src/cli
 	url = git@github.com:daniele77/cli.git
+[submodule "src/rapidjson"]
+	path = src/rapidjson
+	url = git@github.com:Tencent/rapidjson.git
