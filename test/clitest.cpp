@@ -1,6 +1,7 @@
 /**
  * @file clitest.cpp
- * @brief Contains version control information for releases
+ * @brief Contains test code to verify the CLI is building and loading
+ * @todo Integrate a unit test framework (Google test framework?) instead
  * @copyright 
  * Copyright 2022, Ridgetech, LLC.. This software and its contents are 
  * Ridgetech confidental and proprietary. It cannot be used, disclosed 
@@ -13,6 +14,8 @@
 #include <cli/cli.h>
 #include <cli/clifilesession.h>
 
+#include "command.h"
+
 #include <string>
 #include <iostream>
 
@@ -21,7 +24,7 @@ using namespace cli;
 
 int main(int argc, char **argv)
 {
-    string newstring = "Hello World";
+    std::string newstring = "Hello World";
     cout << newstring << endl;
 
     auto rootMenu = make_unique< Menu >("Hello World CLI");
@@ -29,6 +32,10 @@ int main(int argc, char **argv)
                         "hello",
                         [](std::ostream& out){ Cli::cout() << "Hello, everybody" << std::endl;},
                         "Print hello world" );
+
+    LinuxCommand cmd_ls("ls");
+    cmd_ls.SetHelpText("Lists the contents of the current working directory");
+    
 
     Cli cli( std::move(rootMenu) );
     cli.ExitAction( [](auto& out){ out << "What a wonderful world. Goodbye\n"; });

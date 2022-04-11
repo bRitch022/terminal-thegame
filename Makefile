@@ -21,14 +21,18 @@ CLI_DIR 	= $(SRC_DIR)cli/include/
 
 # Sources
 CPPSOURCES += $(GAME_DIR)clitest.cpp
+CPPSOURCES += $(SRC_DIR)command.cpp
 
 # Object files
 COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
 
 # Compiler and flags
 CXX = /usr/bin/g++
-CFLAGS += -I$(CLI_DIR)
 CFLAGS += -std=c++17
+
+# Includes
+CFLAGS += -I$(CLI_DIR)
+CFLAGS += -I$(SRC_DIR)
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
