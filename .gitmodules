@@ -10,3 +10,6 @@
 [submodule "build/json"]
 	path = build/json
 	url = git@github.com:nlohmann/json.git
+[submodule "build/inipp"]
+	path = build/inipp
+	url = git@github.com:mcmtroffaes/inipp.git

@@ -31,5 +31,3 @@ WORKDIR /game
 COPY ./Makefile .
 
 RUN make
-
-# RUN scp -r /game/build/bin/* britchie@172.24.21.117:/home/britchie/repos-wd/cli-game-wd/build/bin

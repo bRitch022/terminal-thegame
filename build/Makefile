@@ -13,14 +13,16 @@ EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 # Directories
 BUILD_DIR		= ./
 SRC_DIR			= $(BUILD_DIR)src/
-JSON_DIR		= $(BUILD_DIR)json/include/
 TEST_DIR		= $(BUILD_DIR)test/
 OBJ_DIR 		= $(BUILD_DIR)obj/
 BIN_DIR			= $(BUILD_DIR)bin/
+INI_DIR			= $(BUILD_DIR)inipp/inipp/
+JSON_DIR		= $(BUILD_DIR)json/include/
 CLI_DIR 		= $(BUILD_DIR)cli/include/
 
 # Sources
-CPPSOURCES += $(TEST_DIR)clitest.cpp
+CPPSOURCES += $(TEST_DIR)IniParseTest.cpp
+# CPPSOURCES += $(TEST_DIR)clitest.cpp
 # CPPSOURCES += $(GAME_DIR)busyboxtest.cpp
 # CPPSOURCES += $(GAMEPLAY_DIR)stage.cpp
 # CPPSOURCES += $(GAMEPLAY_DIR)level.cpp
@@ -30,16 +32,19 @@ COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
 
 # Compiler and flags
 CXX = /usr/bin/g++
-CFLAGS += -I$(CLI_DIR)
-CFLAGS += -I$(JSON_DIR)
+CFLAGS += -I$(INI_DIR)
+# CFLAGS += -I$(CLI_DIR)
+# CFLAGS += -I$(JSON_DIR)
 CFLAGS += -std=c++17
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
 	DEBUG_NAME = .dbg
+	CFLAGS += -DDEBUG
 endif
 
 # Virtual paths for building .cpp->.o files
+vpath %.cpp $(INI_DIR)
 vpath %.cpp $(TEST_DIR)
 vpath %.cpp $(SRC_DIR)
 

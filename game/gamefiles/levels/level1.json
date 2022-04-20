@@ -1,6 +1,5 @@
 {
-    "Title":"Example Storyline JSON",
-    "Stage":1,
+    "Title":"Intro Level",
     "Level":1,
     "XP-Gained":100,
     "Prelude-Script":[
@@ -10,7 +9,7 @@
         {"TypewriterDelay":0.01, "msg":"\"Who --er WHAT, needs my help?\", he thought to himself."}, 
         {"TypewriterDelay":0.01, "msg":"He decided to type in \"help\" to the console..."} 
     ],
-    "Action-Triggers":
+    "Action-Triggers"
     [
         {"TriggerType":"CommandLineInterface","Name":"help","TriggerAction":"print: \"You found the help command\""},
         {"TriggerType":"CommandLineInterface","Name":"ls","TriggerAction":"print: \"You found the ls command\""},
