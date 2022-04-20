@@ -24,23 +24,33 @@ struct Environment
     int level;
 };
 
+// For tracking the command line
+struct CLI
+{
+    std::string lastCommand;
+};
+
 class GameRegistry {
 public:
     GameRegistry(const std::string iniFile);
     ~GameRegistry() {}
 
     bool read();
-    bool write();
+    bool update();
+    void print();
+    void printINI();
 
     Game game;
     Player player;
     Environment environment;
+    CLI cli;
 
 private:
     const std::string m_iniFile;
     inipp::Ini<char> m_iniHandler;
-    // std::ifstream *p_iniFile;
-    std::ifstream f_iniFile;
+#ifdef DEBUG
+    const char* iniFile_new = "../game/gamefiles/GameRegistryNew.ini"; // (BAR): This is for testing purposes so we don't overwrite the current registry file
+#endif
 };
 
 #endif
