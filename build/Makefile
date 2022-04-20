@@ -21,7 +21,9 @@ JSON_DIR		= $(BUILD_DIR)json/include/
 CLI_DIR 		= $(BUILD_DIR)cli/include/
 
 # Sources
-CPPSOURCES += $(TEST_DIR)IniParseTest.cpp
+CPPSOURCES += $(SRC_DIR)GameRegistryIni.cpp
+CPPSOURCES += $(SRC_DIR)main.cpp
+# CPPSOURCES += $(TEST_DIR)IniParseTest.cpp
 # CPPSOURCES += $(TEST_DIR)clitest.cpp
 # CPPSOURCES += $(GAME_DIR)busyboxtest.cpp
 # CPPSOURCES += $(GAMEPLAY_DIR)stage.cpp
@@ -32,6 +34,7 @@ COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
 
 # Compiler and flags
 CXX = /usr/bin/g++
+CFLAGS += -I$(SRC_DIR)
 CFLAGS += -I$(INI_DIR)
 # CFLAGS += -I$(CLI_DIR)
 # CFLAGS += -I$(JSON_DIR)
@@ -45,7 +48,7 @@ endif
 
 # Virtual paths for building .cpp->.o files
 vpath %.cpp $(INI_DIR)
-vpath %.cpp $(TEST_DIR)
+# vpath %.cpp $(TEST_DIR)
 vpath %.cpp $(SRC_DIR)
 
 # Make Targets
