@@ -1,4 +1,6 @@
-# cli_game Makefile
+# gameRegistry Makefile
+
+include $(wildcard $(OBJ_DIR)*.d)
 
 # Version Details
 APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
@@ -6,28 +8,21 @@ APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print
 PATCH		:=	$(shell grep PATCH ./src/version.h | tr -d '"' | awk '{print $$3'} )
 
 # Executable filename details
-EXEC_BASE 	= 	cli_game
+EXEC_BASE 	= 	gameRegistry
 EXEC		= 	$(BIN_DIR)$(EXEC_BASE)-$(APP_MAJ).$(APP_MIN).$(PATCH)$(DEBUG_NAME)
 EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 
 # Directories
 BUILD_DIR		= ./
 SRC_DIR			= $(BUILD_DIR)src/
-TEST_DIR		= $(BUILD_DIR)test/
 OBJ_DIR 		= $(BUILD_DIR)obj/
 BIN_DIR			= $(BUILD_DIR)bin/
 INI_DIR			= $(BUILD_DIR)inipp/inipp/
-JSON_DIR		= $(BUILD_DIR)json/include/
-CLI_DIR 		= $(BUILD_DIR)cli/include/
 
 # Sources
 CPPSOURCES += $(SRC_DIR)GameRegistryIni.cpp
+CPPSOURCES += $(SRC_DIR)Engine.cpp
 CPPSOURCES += $(SRC_DIR)main.cpp
-# CPPSOURCES += $(TEST_DIR)IniParseTest.cpp
-# CPPSOURCES += $(TEST_DIR)clitest.cpp
-# CPPSOURCES += $(GAME_DIR)busyboxtest.cpp
-# CPPSOURCES += $(GAMEPLAY_DIR)stage.cpp
-# CPPSOURCES += $(GAMEPLAY_DIR)level.cpp
 
 # Object files
 COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
@@ -36,8 +31,6 @@ COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
 CXX = /usr/bin/g++
 CFLAGS += -I$(SRC_DIR)
 CFLAGS += -I$(INI_DIR)
-# CFLAGS += -I$(CLI_DIR)
-# CFLAGS += -I$(JSON_DIR)
 CFLAGS += -std=c++17
 
 ifeq ($(DEBUG), 1)
@@ -48,7 +41,6 @@ endif
 
 # Virtual paths for building .cpp->.o files
 vpath %.cpp $(INI_DIR)
-# vpath %.cpp $(TEST_DIR)
 vpath %.cpp $(SRC_DIR)
 
 # Make Targets
@@ -75,3 +67,5 @@ all:
 
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
+
+

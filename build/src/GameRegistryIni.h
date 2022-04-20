@@ -6,34 +6,18 @@
 #include <string>
 #include <fstream>
 #include "inipp.h"
+#include "Player.h"
+#include "Engine.h"
 
 struct Game
 {
     std::string version;
 };
 
-struct Player
-{
-    std::string name;
-    int skillLevel;
-};
-
-struct Environment
-{
-    int stage;
-    int level;
-};
-
-// For tracking the command line
-struct CLI
-{
-    std::string lastCommand;
-};
-
 class GameRegistry {
 public:
     GameRegistry(const std::string iniFile);
-    ~GameRegistry() {}
+    ~GameRegistry();
 
     bool read();
     bool update();
@@ -41,9 +25,8 @@ public:
     void printINI();
 
     Game game;
-    Player player;
-    Environment environment;
-    CLI cli;
+    Player *player;
+    Engine *engine;
 
 private:
     const std::string m_iniFile;

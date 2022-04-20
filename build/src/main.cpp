@@ -3,6 +3,7 @@
 #include "GameRegistryIni.h"
 #include <unistd.h>
 
+
 int main(int argc, char** argv)
 {
     // Check that there is referenced GameRegistry.ini 
@@ -12,22 +13,22 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    // Initialize the registry
+    // Initialize the game registry
+    // This includes initializing the Player, and the Engine
     GameRegistry *p_registry = new GameRegistry(std::string(argv[1]));
 
     // Main game loop
     while(1)
     {
-        char cmd[128] = "clear";
-        system(cmd);
+        // Read any changes that have been made to the registry
         p_registry->read();
 
-#if DEBUG
-        p_registry->printINI();
-#endif
+        // Game stuff happens here
+
+        // Update ingame changes to the registry
         p_registry->update();
 
-        sleep(1);
+        usleep(1E5);
     }
 
     delete(p_registry);
