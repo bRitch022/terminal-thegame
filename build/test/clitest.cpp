@@ -36,6 +36,13 @@ string find_filepath(string filename)
     return result;
 }
 
+// std::function<void()> PrintHello()
+// {
+//     cout << "Hello World Test Function" << endl;
+// }
+
+static void foo(std::ostream& out, string x) { out << x << std::endl; }
+
 int main(int argc, char **argv)
 {
     // Create the CLI menu
@@ -57,8 +64,14 @@ int main(int argc, char **argv)
                 string action = json[i].contains("info") ? json[i]["info"] : "oops";
                 string info = json[i].contains("info") ? json[i]["info"] : "oops";
 
+                // rootMenu -> Insert(command, foo((std::ostream&)Cli::cout, action), info );
                 // This is a template for now, need to create the lambda functions that each cmd will be associated with
-                rootMenu -> Insert(command, [](std::ostream& out){ Cli::cout() << "Insert Action Here" << std::endl;}, info);
+                rootMenu -> Insert(command, 
+                [action](std::ostream& out)
+                { 
+                    Cli::cout() << action << std::endl;
+                }
+                , info);
             }
         }
         

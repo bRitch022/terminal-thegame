@@ -1,9 +1,9 @@
 # cli_game Makefile
 
 # Version Details
-APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
-APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
-PATCH		:=	$(shell grep PATCH ./src/version.h | tr -d '"' | awk '{print $$3'} )
+APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./gamesrc/version.h | tr -d '"' | awk '{print $$3'} )
+APP_MIN		:=	$(shell grep MINOR_RELEASE ./gamesrc/version.h | tr -d '"' | awk '{print $$3'} )
+PATCH		:=	$(shell grep PATCH ./gamesrc/version.h | tr -d '"' | awk '{print $$3'} )
 
 # Executable filename details
 EXEC_BASE 	= 	cli_game
@@ -11,17 +11,19 @@ EXEC		= 	$(BIN_DIR)$(EXEC_BASE)-$(APP_MAJ).$(APP_MIN).$(PATCH)$(DEBUG_NAME)
 EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 
 # Directories
-GAME_DIR 		= ./
-SRC_DIR			= $(GAME_DIR)src/
-JSON_DIR		= $(SRC_DIR)json/include/
-TEST_DIR		= $(GAME_DIR)test/
-BUILD_DIR 		= $(GAME_DIR)build/
+BUILD_DIR		= ./
+SRC_DIR			= $(BUILD_DIR)gamesrc/
+JSON_DIR		= $(BUILD_DIR)json/include/
+TEST_DIR		= $(BUILD_DIR)test/
 OBJ_DIR 		= $(BUILD_DIR)obj/
 BIN_DIR			= $(BUILD_DIR)bin/
-CLI_DIR 		= $(SRC_DIR)cli/include/
+CLI_DIR 		= $(BUILD_DIR)cli/include/
 
 # Sources
-CPPSOURCES += $(GAME_DIR)clitest.cpp
+CPPSOURCES += $(TEST_DIR)clitest.cpp
+# CPPSOURCES += $(GAME_DIR)busyboxtest.cpp
+# CPPSOURCES += $(GAMEPLAY_DIR)stage.cpp
+# CPPSOURCES += $(GAMEPLAY_DIR)level.cpp
 
 # Object files
 COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
@@ -64,4 +66,4 @@ all:
 	@$(MAKE) DEBUG=1
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
