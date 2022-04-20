@@ -6,29 +6,30 @@ FROM debian:latest
 EXPOSE 22
 
 RUN apt -y update
-RUN apt install -y g++ make scp
+RUN apt install -y g++ make
 
-# Copy over our gamefiles
-CMD mkdir -p /game/gamesrc/
-CMD mkdir -p /game/json/
-CMD mkdir -p /game/cli/
-CMD mkdir -p /game/test/
+# Set up directories
+ENV SRC_DIR=/game/src/
+ENV JSON_DIR=/game/json/
+ENV CLI_DIR=/game/cli/
+ENV TEST_DIR=/game/test/
 
-WORKDIR /game/gamesrc/
-COPY ./gamesrc .
+# Copy over our source files
+CMD mkdir -p ${SRC_DIR}
+COPY ./src ${SRC_DIR}
 
-WORKDIR /game/json/
-COPY ./json .
+CMD mkdir -p ${JSON_DIR}
+COPY ./json ${JSON_DIR}
 
-WORKDIR /game/cli/
-COPY ./cli .
+CMD mkdir -p ${CLI_DIR}
+COPY ./cli ${CLI_DIR}
 
-WORKDIR /game/test
-COPY ./test .
+CMD mkdir -p ${TEST_DIR}
+COPY ./test ${TEST_DIR}
 
 WORKDIR /game
 COPY ./Makefile .
 
 RUN make
 
-RUN scp -r /game/build/bin/* britchie@172.24.21.117:/home/britchie/repos-wd/cli-game-wd/build/bin
+# RUN scp -r /game/build/bin/* britchie@172.24.21.117:/home/britchie/repos-wd/cli-game-wd/build/bin

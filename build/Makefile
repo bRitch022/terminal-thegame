@@ -1,9 +1,9 @@
 # cli_game Makefile
 
 # Version Details
-APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./gamesrc/version.h | tr -d '"' | awk '{print $$3'} )
-APP_MIN		:=	$(shell grep MINOR_RELEASE ./gamesrc/version.h | tr -d '"' | awk '{print $$3'} )
-PATCH		:=	$(shell grep PATCH ./gamesrc/version.h | tr -d '"' | awk '{print $$3'} )
+APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
+APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
+PATCH		:=	$(shell grep PATCH ./src/version.h | tr -d '"' | awk '{print $$3'} )
 
 # Executable filename details
 EXEC_BASE 	= 	cli_game
@@ -12,7 +12,7 @@ EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 
 # Directories
 BUILD_DIR		= ./
-SRC_DIR			= $(BUILD_DIR)gamesrc/
+SRC_DIR			= $(BUILD_DIR)src/
 JSON_DIR		= $(BUILD_DIR)json/include/
 TEST_DIR		= $(BUILD_DIR)test/
 OBJ_DIR 		= $(BUILD_DIR)obj/
