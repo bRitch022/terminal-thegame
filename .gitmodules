@@ -4,3 +4,9 @@
 [submodule "src/json"]
 	path = src/json
 	url = git@github.com:nlohmann/json.git
+[submodule "build/cli"]
+	path = build/cli
+	url = git@github.com:daniele77/cli.git
+[submodule "build/json"]
+	path = build/json
+	url = git@github.com:nlohmann/json.git
