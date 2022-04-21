@@ -5,7 +5,7 @@
 
 #include <string>
 #include <fstream>
-#include "inipp.h"
+#include <iniparser.hpp>
 #include "Player.h"
 #include "Engine.h"
 
@@ -30,7 +30,7 @@ public:
 
 private:
     const std::string m_iniFile;
-    inipp::Ini<char> m_iniHandler;
+    INI::File m_iniHandler;
 #ifdef DEBUG
     const char* iniFile_new = "../game/gamefiles/GameRegistryNew.ini"; // (BAR): This is for testing purposes so we don't overwrite the current registry file
 #endif

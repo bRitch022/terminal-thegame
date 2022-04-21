@@ -1,7 +1,5 @@
 # gameRegistry Makefile
 
-include $(wildcard $(OBJ_DIR)*.d)
-
 # Version Details
 APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
 APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
@@ -17,7 +15,7 @@ BUILD_DIR		= ./
 SRC_DIR			= $(BUILD_DIR)src/
 OBJ_DIR 		= $(BUILD_DIR)obj/
 BIN_DIR			= $(BUILD_DIR)bin/
-INI_DIR			= $(BUILD_DIR)inipp/inipp/
+INI_DIR			= $(BUILD_DIR)LeksysINI/
 
 # Sources
 CPPSOURCES += $(SRC_DIR)GameRegistryIni.cpp
@@ -40,7 +38,6 @@ ifeq ($(DEBUG), 1)
 endif
 
 # Virtual paths for building .cpp->.o files
-vpath %.cpp $(INI_DIR)
 vpath %.cpp $(SRC_DIR)
 
 # Make Targets
@@ -68,4 +65,5 @@ all:
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
+include $(wildcard $(OBJ_DIR)*.d)
 

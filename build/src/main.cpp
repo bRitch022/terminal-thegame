@@ -2,6 +2,8 @@
 
 #include "GameRegistryIni.h"
 #include <unistd.h>
+#include <cstring>
+#include <iostream>
 
 
 int main(int argc, char** argv)
@@ -24,6 +26,7 @@ int main(int argc, char** argv)
         p_registry->read();
 
         // Game stuff happens here
+        p_registry->player->SetSkillLevel(p_registry->player->GetSkillLevel() + 1);
 
         // Update ingame changes to the registry
         p_registry->update();

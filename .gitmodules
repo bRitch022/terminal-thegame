@@ -7,6 +7,6 @@
 [submodule "build/json"]
 	path = build/json
 	url = git@github.com:nlohmann/json.git
-[submodule "build/inipp"]
-	path = build/inipp
-	url = git@github.com:mcmtroffaes/inipp.git
+[submodule "build/LeksysINI"]
+	path = build/LeksysINI
+	url = git@github.com:Lek-sys/LeksysINI.git
