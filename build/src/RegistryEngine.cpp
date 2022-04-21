@@ -1,11 +1,17 @@
 // main.cpp
 
-#include "GameRegistryIni.h"
+#include "Registry.h"
 #include <unistd.h>
 #include <cstring>
 #include <iostream>
 
-
+/**
+ * @brief Main method for the RegistryEngine
+ * For now, this manages the Player and the BASHEngine
+ *
+ * @param argv This should include <dir>/GameRegistry.ini
+ * @return int
+ */
 int main(int argc, char** argv)
 {
     // Check that there is referenced GameRegistry.ini
@@ -16,7 +22,7 @@ int main(int argc, char** argv)
     }
 
     // Initialize the game registry
-    // This includes initializing the Player, and the Engine
+    // This includes initializing the Player, and the BASHEngine
     GameRegistry *p_registry = new GameRegistry(std::string(argv[1]));
 
     // Main game loop

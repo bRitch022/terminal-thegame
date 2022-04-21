@@ -1,15 +1,15 @@
-// Engine.h
+// BASHEngine.h
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef BASH_ENGINE_H
+#define BASH_ENGINE_H
 
 #include <string>
 
-class Engine
+class BASHEngine
 {
 public:
-    Engine() {}
-    ~Engine() {}
+    BASHEngine() {}
+    ~BASHEngine() {}
 
     std::string GetStdoutFromCommand(std::string cmd);
     std::string GetLastUserCommand_FromBashHistory();

@@ -1,10 +1,10 @@
-// Engine.cpp
+// BASHEngine.cpp
 
-#include "Engine.h"
+#include "BASHEngine.h"
 #include <fstream>
 #include <iostream>
 
-std::string Engine::GetStdoutFromCommand(std::string cmd) {
+std::string BASHEngine::GetStdoutFromCommand(std::string cmd) {
 
   std::string data;
   FILE * stream;
@@ -26,7 +26,7 @@ std::string Engine::GetStdoutFromCommand(std::string cmd) {
  * @brief Read ~/.bash_history and obtain the last command entered by the user
  *
  */
-std::string Engine::GetLastUserCommand_FromBashHistory()
+std::string BASHEngine::GetLastUserCommand_FromBashHistory()
 {
     std::string user = GetStdoutFromCommand("whoami");
 
@@ -79,7 +79,7 @@ std::string Engine::GetLastUserCommand_FromBashHistory()
  *
  * @param val
  */
-void Engine::SetLastCommand_FromRegistry(std::string val)
+void BASHEngine::SetLastCommand_FromRegistry(std::string val)
 {
     m_lastUserCommand = val;
 }

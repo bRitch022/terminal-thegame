@@ -7,7 +7,8 @@
 #include <fstream>
 #include <iniparser.hpp>
 #include "Player.h"
-#include "Engine.h"
+#include "BASHEngine.h"
+#include "Level.h"
 
 struct Game
 {
@@ -26,7 +27,8 @@ public:
 
     Game game;
     Player *player;
-    Engine *engine;
+    BASHEngine *BASHengine;
+    Level *level;
 
 private:
     const std::string m_iniFile;
