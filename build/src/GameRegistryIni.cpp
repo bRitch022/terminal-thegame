@@ -3,7 +3,7 @@
 #include <iostream>
 #include "GameRegistryIni.h"
 
-using namespace inipp;
+// using namespace inipp;
 
 GameRegistry::GameRegistry(const std::string iniFile) : m_iniFile(iniFile) 
 {
@@ -20,11 +20,6 @@ GameRegistry::~GameRegistry()
 /**
  * @brief Read the game registry
  * 
- * @todo Currently, this read the registry, but any updates made to it in
- * realtime do not propagate. In order to make the game "hackable", these
- * reads need to read in realtime. I thought just simply opening and closing 
- * the file would accomplish that, but alas it does not.
- * 
  * @return true for successful read
  * @return false if unsuccessful
  */
@@ -32,26 +27,31 @@ bool GameRegistry::read()
 {
     bool success = true; // assume true for now
 
-    std::ifstream f_iniFile(m_iniFile);
-    if(!f_iniFile) 
+    if(!m_iniHandler.Load(m_iniFile))
     {
-        std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
-        return false; 
+        std::ifstream f_iniFile(m_iniFile);
+        if(!f_iniFile.is_open()) 
+        {
+            std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
+            return false; 
+        }
+
+        f_iniFile >> m_iniHandler;
     }
 
-    m_iniHandler.parse(f_iniFile);
-    m_iniHandler.strip_trailing_comments();
+    std::cout << "ini [Game:version]: " << m_iniHandler.GetSection("Game")->GetValue("version").AsString() << std::endl;
+    std::cout << "game.version: " << game.version << std::endl;
 
     // Game
-    get_value(m_iniHandler.sections["Game"], "version", game.version); 
+    game.version = m_iniHandler.GetSection("Game")->GetValue("version").AsString();
 
     // Engine
     int engine_stage, engine_level;
     std::string engine_lastUserCommand;
 
-    get_value(m_iniHandler.sections["Engine"], "stage", engine_stage);
-    get_value(m_iniHandler.sections["Engine"], "level", engine_level);
-    get_value(m_iniHandler.sections["Engine"], "last-command", engine_lastUserCommand); 
+    engine_stage = m_iniHandler.GetSection("Engine")->GetValue("stage").AsInt();
+    engine_level = m_iniHandler.GetSection("Engine")->GetValue("level").AsInt();
+    engine_lastUserCommand = m_iniHandler.GetSection("Engine")->GetValue("last-command").AsString();
 
     if(!engine)
     {
@@ -69,8 +69,8 @@ bool GameRegistry::read()
     std::string player_name;
     int player_skillLevel;
 
-    get_value(m_iniHandler.sections["Player"], "name", player_name);
-    get_value(m_iniHandler.sections["Player"], "skill-level", player_skillLevel); 
+    player_name = m_iniHandler.GetSection("Player")->GetValue("name").AsString();
+    player_skillLevel = m_iniHandler.GetSection("Player")->GetValue("skill-level").AsInt();
     if(!player)
     {
         player = new Player(player_name);
@@ -81,8 +81,6 @@ bool GameRegistry::read()
     system("clear");
     print();
 #endif
-
-    f_iniFile.close();
 
     return success;
 }
@@ -97,43 +95,34 @@ bool GameRegistry::read()
  */
 bool GameRegistry::update()
 {
-// #ifdef DEBUG
-//     std::ofstream f_iniFile(iniFile_new);
-// #else
-    std::ofstream f_iniFile(m_iniFile);
-// #endif
-
-    if(!f_iniFile) 
+    if(!m_iniHandler.Load(m_iniFile))
     {
-// #ifdef DEBUG
-//         std::cout << "ERROR: Couldn't open " << iniFile_new << " for writing" << std::endl;
-// #else 
-        std::cout << "ERROR: Couldn't open " << m_iniFile << " for writing" << std::endl; 
-// #endif
-        return false; 
+        std::ofstream f_iniFile(m_iniFile);
+        if(!f_iniFile.is_open()) 
+        {
+            std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
+            return false; 
+        }
+
+        f_iniFile << m_iniHandler;
     }
 
-    f_iniFile << "; Game generated registry" << std::endl;
-    f_iniFile << "[Game]" << std::endl;
-    f_iniFile << "version=" << game.version << std::endl;
-    f_iniFile << std::endl;
+    m_iniHandler.GetSection("Game")->SetValue("version", game.version);
 
     if(player)
-    {
-        f_iniFile << "[Player]" << std::endl;
-        f_iniFile << "name=" << player->GetName() << std::endl;
-        f_iniFile << "skill-level=" << player->GetSkillLevel() << std::endl;
-        f_iniFile << std::endl;
+    {   
+        m_iniHandler.GetSection("Player")->SetValue("name", player->GetName());
+        m_iniHandler.GetSection("Player")->SetValue("skill-level", player->GetSkillLevel());
     }
     
     if(engine)
     {
-        f_iniFile << "[Engine]" << std::endl;
-        f_iniFile << "stage=" << engine->GetStage() << std::endl;
-        f_iniFile << "level=" << engine->GetLevel() << std::endl;
-        f_iniFile << "last-command=" << engine->GetLastUserCommand_FromBashHistory() << std::endl;
-        f_iniFile << std::endl;
+        m_iniHandler.GetSection("Engine")->SetValue("stage", engine->GetStage());
+        m_iniHandler.GetSection("Engine")->SetValue("level", engine->GetLevel());
+        m_iniHandler.GetSection("Engine")->SetValue("last-command", engine->GetLastUserCommand_FromBashHistory());
     }
+
+    m_iniHandler.Save(m_iniFile);
 
     return true;
 }
@@ -156,5 +145,5 @@ void GameRegistry::print()
 
 void GameRegistry::printINI()
 {
-    m_iniHandler.generate(std::cout);
+    // m_iniHandler.generate(std::cout);
 }
