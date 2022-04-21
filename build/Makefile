@@ -38,7 +38,6 @@ ifeq ($(DEBUG), 1)
 endif
 
 # Virtual paths for building .cpp->.o files
-# vpath %.cpp $(INI_DIR)
 vpath %.cpp $(SRC_DIR)
 
 # Make Targets
