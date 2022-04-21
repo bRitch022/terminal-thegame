@@ -45,14 +45,14 @@ vpath %.cpp $(SRC_DIR)
 
 $(EXEC_MD5): $(EXEC)
 
-$(EXEC): $(OBJ_DIR) $(COBJ) $(BIN_DIR) 
+$(EXEC): $(OBJ_DIR) $(COBJ) $(BIN_DIR)
 	$(CXX) $(CFLAGS) $(LDFLAGS) $(COBJ) -o $@
 	md5sum $(EXEC) > $(addsuffix .md5, $(EXEC))
 
 $(BIN_DIR):
 	@mkdir -p $@
 
-$(OBJ_DIR): 
+$(OBJ_DIR):
 	@mkdir -p $@
 
 $(OBJ_DIR)%.o: %.cpp

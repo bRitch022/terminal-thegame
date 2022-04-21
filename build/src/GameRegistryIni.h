@@ -31,9 +31,6 @@ public:
 private:
     const std::string m_iniFile;
     INI::File m_iniHandler;
-#ifdef DEBUG
-    const char* iniFile_new = "../game/gamefiles/GameRegistryNew.ini"; // (BAR): This is for testing purposes so we don't overwrite the current registry file
-#endif
 };
 
 #endif

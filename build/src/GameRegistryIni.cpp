@@ -5,13 +5,13 @@
 
 // using namespace inipp;
 
-GameRegistry::GameRegistry(const std::string iniFile) : m_iniFile(iniFile) 
+GameRegistry::GameRegistry(const std::string iniFile) : m_iniFile(iniFile)
 {
     // TODO (BAR): Set game version from version.h
     read();
 }
 
-GameRegistry::~GameRegistry() 
+GameRegistry::~GameRegistry()
 {
     if(player) delete(player);
     if(engine) delete(engine);
@@ -19,7 +19,7 @@ GameRegistry::~GameRegistry()
 
 /**
  * @brief Read the game registry
- * 
+ *
  * @return true for successful read
  * @return false if unsuccessful
  */
@@ -30,10 +30,10 @@ bool GameRegistry::read()
     if(!m_iniHandler.Load(m_iniFile))
     {
         std::ifstream f_iniFile(m_iniFile);
-        if(!f_iniFile.is_open()) 
+        if(!f_iniFile.is_open())
         {
             std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
-            return false; 
+            return false;
         }
 
         f_iniFile >> m_iniHandler;
@@ -67,16 +67,18 @@ bool GameRegistry::read()
 
     // Player
     std::string player_name;
-    int player_skillLevel;
+    int player_skillLevel, player_XP;
 
     player_name = m_iniHandler.GetSection("Player")->GetValue("name").AsString();
     player_skillLevel = m_iniHandler.GetSection("Player")->GetValue("skill-level").AsInt();
+    player_XP = m_iniHandler.GetSection("Player")->GetValue("XP").AsInt();
     if(!player)
     {
         player = new Player(player_name);
     }
     player->SetSkillLevel(player_skillLevel);
-    
+    player->SetXP(player_XP);
+
 #ifdef DEBUG
     system("clear");
     print();
@@ -89,19 +91,19 @@ bool GameRegistry::read()
  * @brief Update the ini registry with in-game contents
  * Ideally, this is a RAM->ini swap with parameters that we
  * are interested in.
- * 
- * @return true 
- * @return false 
+ *
+ * @return true
+ * @return false
  */
 bool GameRegistry::update()
 {
     if(!m_iniHandler.Load(m_iniFile))
     {
         std::ofstream f_iniFile(m_iniFile);
-        if(!f_iniFile.is_open()) 
+        if(!f_iniFile.is_open())
         {
             std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
-            return false; 
+            return false;
         }
 
         f_iniFile << m_iniHandler;
@@ -110,11 +112,12 @@ bool GameRegistry::update()
     m_iniHandler.GetSection("Game")->SetValue("version", game.version);
 
     if(player)
-    {   
+    {
         m_iniHandler.GetSection("Player")->SetValue("name", player->GetName());
         m_iniHandler.GetSection("Player")->SetValue("skill-level", player->GetSkillLevel());
+        m_iniHandler.GetSection("Player")->SetValue("XP", player->GetXP());
     }
-    
+
     if(engine)
     {
         m_iniHandler.GetSection("Engine")->SetValue("stage", engine->GetStage());
@@ -134,12 +137,13 @@ void GameRegistry::print()
     {
         std::cout << "Stage: " << engine->GetStage() << std::endl;
         std::cout << "Level: " << engine->GetLevel() << std::endl;
-        std::cout << "Last Command: " << engine->GetLastUserCommand_FromRegistry() << std::endl; 
+        std::cout << "Last Command: " << engine->GetLastUserCommand_FromRegistry() << std::endl;
     }
     if(player)
     {
-        std::cout << "Player name: " << player->GetName() << std::endl;   
-        std::cout << "Player skill: " << player->GetSkillLevel() << std::endl;  
+        std::cout << "Player name: " << player->GetName() << std::endl;
+        std::cout << "Player skill: " << player->GetSkillLevel() << std::endl;
+        std::cout << "Player XP: " << player->GetXP() << std::endl;
     }
 }
 

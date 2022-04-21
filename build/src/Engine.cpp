@@ -4,10 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <unistd.h>
-
-// TODO (BAR): Remove this cruft method -- although we may still need it at some point
-std::string GetStdoutFromCommand(std::string cmd) {
+std::string Engine::GetStdoutFromCommand(std::string cmd) {
 
   std::string data;
   FILE * stream;
@@ -27,8 +24,8 @@ std::string GetStdoutFromCommand(std::string cmd) {
 
 /**
  * @brief Read ~/.bash_history and obtain the last command entered by the user
- * 
- */ 
+ *
+ */
 std::string Engine::GetLastUserCommand_FromBashHistory()
 {
     std::string user = GetStdoutFromCommand("whoami");
@@ -53,7 +50,7 @@ std::string Engine::GetLastUserCommand_FromBashHistory()
     {
         f_file.seekg(-1, std::ios_base::cur);
     }
-    
+
     // Start searching for the next \n occurrence
     f_file.seekg(-1, std::ios_base::cur);
     for(int i = f_file.tellg(); i > 0; i--)
@@ -68,7 +65,7 @@ std::string Engine::GetLastUserCommand_FromBashHistory()
 
         f_file.seekg(i, std::ios_base::beg);
     }
-    
+
     std::string lastCommand;
     getline(f_file, lastCommand);
 
@@ -79,8 +76,8 @@ std::string Engine::GetLastUserCommand_FromBashHistory()
 
 /**
  * @brief Set the m_lastUserCommand data member
- * 
- * @param val 
+ *
+ * @param val
  */
 void Engine::SetLastCommand_FromRegistry(std::string val)
 {

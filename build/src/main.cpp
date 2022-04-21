@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv)
 {
-    // Check that there is referenced GameRegistry.ini 
+    // Check that there is referenced GameRegistry.ini
     if(argc <= 1 || strstr(argv[1], "GameRegistry.ini") == NULL)
     {
         std::cout << "Missing argument: GameRegistry.ini" << std::endl;
