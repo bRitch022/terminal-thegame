@@ -13,7 +13,6 @@ EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 # Directories
 BUILD_DIR		= ./
 SRC_DIR			= $(BUILD_DIR)src/
-
 BIN_DIR			= $(BUILD_DIR)bin/
 INI_DIR			= $(BUILD_DIR)LeksysINI/
 

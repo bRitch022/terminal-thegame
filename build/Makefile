@@ -3,18 +3,18 @@
 export OBJ_DIR 		= $(BUILD_DIR)obj/
 export BIN_DIR		= $(BUILD_DIR)bin/
 
-BINSOURCES += RegistryEngine.mk
-BINSOURCES += GameEngine.mk
+MKSOURCES += RegistryEngine.mk
+MKSOURCES += GameEngine.mk
 
 .PHONY: all clean
 
 release:
-	$(foreach bin,$(BINSOURCES),\
-	$(MAKE) -f $(bin) ;)
+	$(foreach mkfile,$(MKSOURCES),\
+	$(MAKE) -f $(mkfile) ;)
 
 debug:
-	$(foreach bin,$(BINSOURCES),\
-	$(MAKE) DEBUG=1 -f $(bin) ;)
+	$(foreach mkfile,$(MKSOURCES),\
+	$(MAKE) DEBUG=1 -f $(mkfile) ;)
 
 all: release debug
 
