@@ -39,9 +39,6 @@ bool GameRegistry::read()
         f_iniFile >> m_iniHandler;
     }
 
-    std::cout << "ini [Game:version]: " << m_iniHandler.GetSection("Game")->GetValue("version").AsString() << std::endl;
-    std::cout << "game.version: " << game.version << std::endl;
-
     // Game
     game.version = m_iniHandler.GetSection("Game")->GetValue("version").AsString();
 
