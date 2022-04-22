@@ -1,0 +1,157 @@
+# Key
+@startuml Key
+!theme toy
+package TheKey {
+    Key : +Public Member
+    Key : #Protected Member
+    Key : -Private Member
+    Key : {static}Static Member
+    Key : ~{abstract}Pure Virtual Method()=0
+    Key : ~Virtual Method()
+    Key : +Public Method()
+    Key : #Protected Method()
+    Key : -Private Method()
+    Key : {static}Static Method()
+}
+@enduml
+
+# Class Diagram
+@startuml NewDesign.png
+!theme toy
+title Terminal, The Game Class Diagram
+
+Abstract Manager
+Manager <|-- "is-a" PlayerManager
+Manager <|-- "is-a" LevelManager
+Manager <|-- "is-a" EventManager
+Manager : Communicates with Registry
+Manager : ~RegistryPoll()=0
+Manager : ~RegistryPush()=0
+Manager : -ManagerType
+
+note left of Player::skillLevel
+Is this necessary at this point?
+What will a 'skillLevel' grant the player?
+end note
+
+note left of Player::XP
+Same story here... what will leveling up do
+for the player?
+end note
+
+Player --* "has-a" PlayerManager
+Player : -string name
+Player : -int skillLevel
+Player : -int XP
+Player : +GetName()
+Player : +GetSkillLevel()
+Player : +GetXP()
+
+note left of PlayerManager
+Argument: Do we need a "Player"?
+Or do we just need a character name..
+end note
+PlayerManager ---* "has-a" Registry
+PlayerManager : Polls registry for:\n - Player skillLevel\n - Player XP
+
+Level <-- "calls" LevelManager
+Level : Displays script text to UI
+Level : -int levelID
+Level : -vector Triggers
+Level : -int GrantedXP
+Level : +GetLevelID()
+Level : +GetTriggerNum()
+Level : +GetGrantedXP()
+Level : -DisplayMessage()
+Level : -ParseJSON()
+
+
+LevelManager ---* "has-a" Registry
+LevelManager : Polls registry for:\n - current level \n - lastCommand for level triggers
+LevelManager : -LaunchLevel()
+
+EventManager ---* "has-a" Registry
+EventManager : Poll for filesystem change events
+EventManager : Poll \~/.bash_history for command entry
+EventManager : -PollFilesystemChanges()
+EventManager : -PollBashHistory()
+
+Registry : Objectified Registry.ini
+Registry : - Player
+Registry : - Level
+Registry : - Events
+Registry : +Read(type)
+Registry : +Update(type)
+
+@enduml
+
+# Flow Chart
+@startuml FlowChat
+title Game Engine Design
+!theme toy
+:Player spins up game environment
+Gamefiles are installed appropriately
+echo startScript into \~/.bashrc;
+start
+:\~/.bashrc calls startScript;
+switch (startScript calls)
+case ()
+    :PlayerManager.bin
+    Background process;
+    start
+    repeat
+        :Registry poll;
+        :Perform Player logic;
+        backward:Registry push;
+    repeat while (killsignal) is (no)
+        ->yes;
+    end
+case ()
+    :EventManager.bin
+    Background process;
+    start
+    repeat
+        :Registry poll;
+        :Poll Last Command;
+        :Poll Filesystem changes;
+        backward:Registry push;
+    repeat while (killsignal) is (no)
+        ->yes;
+    end
+case ()
+    :LevelManager.bin
+    Background process;
+    start
+    repeat
+        :Registry poll;
+        :Launch Level(n).bin;
+        :Display message;
+        start
+        repeat
+        :Registry poll;
+        if (lastCommand == goal trigger(s)?) then (yes)
+            :Display Message;
+            :Registry:LevelGoals++;
+            if (trigger == last?) then (yes)
+                :Level Increment;
+                :Registry push;
+                stop
+            else
+                ->no;
+            endif
+        else
+            ->no;
+        endif
+        backward:Registry push;
+        repeat while (trigger != last) is (no)
+
+    backward:Registry push;
+    repeat while (killsignal) is (no)
+    end
+endswitch
+
+@enduml
+
+@startuml
+
+@enduml
