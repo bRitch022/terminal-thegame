@@ -1,4 +1,4 @@
-// GameRegistryIni.h
+// RegistryIni.h
 
 #ifndef GAME_REG_H
 #define GAME_REG_H
@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iniparser.hpp>
 #include "Player.h"
-#include "BASHEngine.h"
+#include "Event.h"
 #include "Level.h"
 
 struct Game
@@ -15,19 +15,17 @@ struct Game
     std::string version;
 };
 
-class GameRegistry {
+class Registry {
 public:
-    GameRegistry(const std::string iniFile);
-    ~GameRegistry();
+    Registry(const std::string iniFile);
+    ~Registry();
 
     bool read();
     bool update();
-    void print();
-    void printINI();
+    bool print();
 
-    Game game;
     Player *player;
-    BASHEngine *BASHengine;
+    Event *events;
     Level *level;
 
 private:

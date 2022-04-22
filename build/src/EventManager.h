@@ -1,15 +1,16 @@
-// BASHEngine.h
+// EventManager.h
 
 #ifndef BASH_ENGINE_H
 #define BASH_ENGINE_H
 
 #include <string>
+#include "Manager.h"
 
-class BASHEngine
+class EventManager : public Manager("event")
 {
 public:
-    BASHEngine() {}
-    ~BASHEngine() {}
+    EventManager() {}
+    ~EventManager() {}
 
     std::string GetStdoutFromCommand(std::string cmd);
     std::string GetLastUserCommand_FromBashHistory();

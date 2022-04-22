@@ -1,4 +1,4 @@
-# RegistryEngine Makefile
+# EventManager Makefile
 
 # Version Details
 APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
@@ -6,7 +6,7 @@ APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print
 PATCH		:=	$(shell grep PATCH ./src/version.h | tr -d '"' | awk '{print $$3'} )
 
 # Executable filename details
-EXEC_BASE 	= 	RegistryEngine
+EXEC_BASE 	= 	EventManager
 EXEC		= 	$(BIN_DIR)$(EXEC_BASE)-$(APP_MAJ).$(APP_MIN).$(PATCH)$(DEBUG_NAME)
 EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 
@@ -18,8 +18,8 @@ INI_DIR			= $(BUILD_DIR)LeksysINI/
 
 # Sources
 CPPSOURCES += $(SRC_DIR)Registry.cpp
-CPPSOURCES += $(SRC_DIR)BASHEngine.cpp
-CPPSOURCES += $(SRC_DIR)RegistryEngine.cpp
+CPPSOURCES += $(SRC_DIR)Manager.cpp
+CPPSOURCES += $(SRC_DIR)EventManager.cpp
 
 # Object files
 COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))

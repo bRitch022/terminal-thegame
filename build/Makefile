@@ -3,8 +3,8 @@
 export OBJ_DIR 		= $(BUILD_DIR)obj/
 export BIN_DIR		= $(BUILD_DIR)bin/
 
-MKSOURCES += RegistryEngine.mk
-MKSOURCES += GameEngine.mk
+MKSOURCES += EventManager.mk
+MKSOURCES += LevelManager.mk
 
 .PHONY: all clean
 

@@ -1,4 +1,4 @@
-# GameEngine.mk
+# LevelManager.mk
 
 # Version Details
 APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
@@ -6,7 +6,7 @@ APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print
 PATCH		:=	$(shell grep PATCH ./src/version.h | tr -d '"' | awk '{print $$3'} )
 
 # Executable filename details
-EXEC_BASE 	= 	GameEngine
+EXEC_BASE 	= 	LevelManager
 EXEC		= 	$(BIN_DIR)$(EXEC_BASE)-$(APP_MAJ).$(APP_MIN).$(PATCH)$(DEBUG_NAME)
 EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 
@@ -15,11 +15,12 @@ BUILD_DIR		= ./
 SRC_DIR			= $(BUILD_DIR)src/
 BIN_DIR			= $(BUILD_DIR)bin/
 INI_DIR			= $(BUILD_DIR)LeksysINI/
+JSON_DIR		= $(BUILD_DIR)json/include/
 
 # Sources
 CPPSOURCES += $(SRC_DIR)Registry.cpp
-CPPSOURCES += $(SRC_DIR)LevelEngine.cpp
-CPPSOURCES += $(SRC_DIR)BASHEngine.cpp
+CPPSOURCES += $(SRC_DIR)Level.cpp
+CPPSOURCES += $(SRC_DIR)LevelManager.cpp
 
 # Object files
 COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
