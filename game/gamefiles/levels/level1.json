@@ -11,12 +11,14 @@
     ],
     "Action-Triggers":
     [
-        {"TriggerType":"CommandLineInterface","Name":"help","TriggerAction":"print: \"You found the help command\""},
-        {"TriggerType":"CommandLineInterface","Name":"ls","TriggerAction":"print: \"You found the ls command\""},
-        {"TriggerType":"CommandLineInterface","Name":"cd","TriggerAction":"print: \"You found the cd command\""}
+        {"Name":"help", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the help command"},
+        {"Name":"pwd", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the pwd command"},
+        {"Name":"ls", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the ls command"},
+        {"Name":"cd", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the cd command"}
     ],
-    "Goal-Triggers": ["help", "ls", "cd"],
-    "Interlude-Script":[
+    "Goal-Triggers": [ "pwd", "ls", "cd"],
+    "Interlude-Script":
+    [
         {"TypewriterDelay":0.01, "msg":"I thought you would never come, my son... cough.. cough.."},
         {"TypewriterDelay":0.01, "msg":"I'm trapped in this computer, and I need you to: _________"}
     ]

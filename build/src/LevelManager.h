@@ -14,4 +14,7 @@ public:
 
 private:
     bool LaunchLevel();
+
+    int m_level;
+    std::vector<std::string> m_commands;
 };

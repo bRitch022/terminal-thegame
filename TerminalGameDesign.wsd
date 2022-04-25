@@ -57,18 +57,20 @@ PlayerManager : Polls registry for:\n - Player skillLevel\n - Player XP
 Level <-- "calls" LevelManager
 Level : Displays script text to UI
 Level : -int levelID
-Level : -vector Triggers
+Level : -vector<trigger> triggers
 Level : -int GrantedXP
 Level : +GetLevelID()
 Level : +GetTriggerNum()
 Level : +GetGrantedXP()
-Level : -DisplayMessage()
 Level : -ParseJSON()
+Level : -DisplayMessage()
+Level : -PrintNextScriptLine()
 
 
 LevelManager ---* "has-a" Registry
 LevelManager : Polls registry for:\n - current level \n - lastCommand for level triggers
 LevelManager : -LaunchLevel()
+LevelManager : -vector<string> commands;
 
 EventManager ---* "has-a" Registry
 EventManager : Poll for filesystem change events

@@ -19,6 +19,7 @@ JSON_DIR		= $(BUILD_DIR)json/include/
 
 # Sources
 CPPSOURCES += $(SRC_DIR)Registry.cpp
+CPPSOURCES += $(SRC_DIR)Manager.cpp
 CPPSOURCES += $(SRC_DIR)Level.cpp
 CPPSOURCES += $(SRC_DIR)LevelManager.cpp
 

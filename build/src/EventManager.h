@@ -17,12 +17,6 @@ public:
     std::string GetLastUserCommand_FromRegistry() { return m_lastUserCommand; }
     void SetLastCommand_FromRegistry(std::string val);
 
-    int GetStage() { return m_stage; }
-    int GetLevel() { return m_level; }
-
-    void SetStage(int val) { m_stage = val; }
-    void SetLevel(int val) { m_level = val; }
-
 private:
     int m_stage;
     int m_level;

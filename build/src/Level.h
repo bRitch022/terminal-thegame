@@ -6,13 +6,14 @@
 #include <string>
 #include <vector>
 
-struct script_line
+struct scriptLine
 {
     float typeWriterDelay;
     std::string msg;
+    bool printed;
 };
 
-enum trigger_t { COMMAND_LINE_INTERFACE, SOMESHIT };
+enum trigger_t { BASH_HISTORY };
 enum trigger_action_t { PRINT };
 
 struct actionTrigger
@@ -20,12 +21,13 @@ struct actionTrigger
     trigger_t triggerType;
     std::string name;
     trigger_action_t triggerAction;
+    std::string triggerMessage;
 };
 
 class Level {
 
 public:
-    Level(std::string level_file) : m_levelFile(level_file) {}
+    Level(const std::string level_dir, const std::string out_pts);
     ~Level() {}
 
     int GetLevelID() { return m_levelID; }
@@ -33,17 +35,21 @@ public:
     int GetGrantedXP() { return m_grantedXP; }
 
 private:
-    bool ParseJSON(std::ifstream j_file);
-    bool DisplayMessage();
+    bool ParseJSON(std::ifstream& j_file);
+    bool DisplayMessage(std::string& msg);
+    bool PrintNextScriptLine(std::vector<scriptLine>& script);
 
     int m_levelID;
     int m_grantedXP;
 
-    std::vector<script_line> prelude_script;
-    std::vector<script_line> interlude_script;
+    std::vector<scriptLine> prelude_script;
+    std::vector<scriptLine> interlude_script;
+    std::vector<int> test;
+
     std::vector<actionTrigger> action_triggers;
     std::vector<std::string> goal_triggers;
-    const std::string m_levelFile;
+    const std::string m_level_dir; // name of the directory where the level json files are stored
+    const std::string m_out_pts; // name of the psuedo-terminal that the user is logged in on
 
 };
 
