@@ -3,20 +3,33 @@
 #include <iostream>
 #include "Registry.h"
 
-Registry::Registry(const std::string iniFile) : m_iniFile(iniFile)
+bool Registry::init(const std::string iniFile)
 {
     // TODO (BAR): Set game version from version.h
-    read();
+    m_iniFile = iniFile;
+    memset(&game, 0, sizeof(game));
+    memset(&player, 0, sizeof(player));
+    memset(&level, 0, sizeof(level));
+
+    return read();
 }
 
-Registry::~Registry()
+/**
+ * @brief
+ * @todo @BAR
+ *
+ * @return true
+ * @return false
+ */
+bool Registry::heartbeat()
 {
-    if(player) delete(player);
-    if(EventManager) delete(EventManager);
+    return true;
 }
 
 /**
  * @brief Read the game registry
+ * @param section SECTION_T
+ * Specify a section type to read only that section
  *
  * @return true for successful read
  * @return false if unsuccessful
@@ -37,42 +50,27 @@ bool Registry::read()
         f_iniFile >> m_iniHandler;
     }
 
-    // Game
     game.version = m_iniHandler.GetSection("Game")->GetValue("version").AsString();
+    game.level = m_iniHandler.GetSection("Game")->GetValue("level").AsInt();
+    game.killswitch = m_iniHandler.GetSection("Game")->GetValue("killswitch").AsBool();
 
-    // Engine
-    int engine_stage, engine_level;
-    std::string engine_lastUserCommand;
+    std::string engine_lastUserCommand = m_iniHandler.GetSection("Events")->GetValue("last-command").AsString();
 
-    engine_stage = m_iniHandler.GetSection("Engine")->GetValue("stage").AsInt();
-    engine_level = m_iniHandler.GetSection("Engine")->GetValue("level").AsInt();
-    engine_lastUserCommand = m_iniHandler.GetSection("Engine")->GetValue("last-command").AsString();
-
-    if(!EventManager)
-    {
-        EventManager = new EventManager();
-    }
-    EventManager->SetStage(engine_stage);
-    EventManager->SetLevel(engine_level);
     if(engine_lastUserCommand == "")
     {
-        engine_lastUserCommand = EventManager->GetLastUserCommand_FromBashHistory();
+        engine_lastUserCommand = event_man.GetLastUserCommand_FromBashHistory();
     }
-    EventManager->SetLastCommand_FromRegistry(engine_lastUserCommand);
+    event_man.SetLastCommand_FromRegistry(engine_lastUserCommand);
 
-    // Player
     std::string player_name;
     int player_skillLevel, player_XP;
 
     player_name = m_iniHandler.GetSection("Player")->GetValue("name").AsString();
     player_skillLevel = m_iniHandler.GetSection("Player")->GetValue("skill-level").AsInt();
     player_XP = m_iniHandler.GetSection("Player")->GetValue("XP").AsInt();
-    if(!player)
-    {
-        player = new Player(player_name);
-    }
-    player->SetSkillLevel(player_skillLevel);
-    player->SetXP(player_XP);
+
+    player.SetSkillLevel(player_skillLevel);
+    player.SetXP(player_XP);
 
 #ifdef DEBUG
     system("clear");
@@ -105,20 +103,14 @@ bool Registry::update()
     }
 
     m_iniHandler.GetSection("Game")->SetValue("version", game.version);
+    m_iniHandler.GetSection("Game")->SetValue("level", game.level);
 
-    if(player)
-    {
-        m_iniHandler.GetSection("Player")->SetValue("name", player->GetName());
-        m_iniHandler.GetSection("Player")->SetValue("skill-level", player->GetSkillLevel());
-        m_iniHandler.GetSection("Player")->SetValue("XP", player->GetXP());
-    }
+    m_iniHandler.GetSection("Engine")->SetValue("last-command", event_man.GetLastUserCommand_FromBashHistory());
 
-    if(EventManager)
-    {
-        m_iniHandler.GetSection("Engine")->SetValue("stage", EventManager->GetStage());
-        m_iniHandler.GetSection("Engine")->SetValue("level", EventManager->GetLevel());
-        m_iniHandler.GetSection("Engine")->SetValue("last-command", EventManager->GetLastUserCommand_FromBashHistory());
-    }
+    m_iniHandler.GetSection("Player")->SetValue("name", player.GetName());
+    m_iniHandler.GetSection("Player")->SetValue("skill-level", player.GetSkillLevel());
+    m_iniHandler.GetSection("Player")->SetValue("XP", player.GetXP());
+
 
     m_iniHandler.Save(m_iniFile);
 
@@ -128,21 +120,12 @@ bool Registry::update()
 void Registry::print()
 {
     std::cout << "Game version: " << game.version << std::endl;
-    if(EventManager)
-    {
-        std::cout << "Stage: " << EventManager->GetStage() << std::endl;
-        std::cout << "Level: " << EventManager->GetLevel() << std::endl;
-        std::cout << "Last Command: " << EventManager->GetLastUserCommand_FromRegistry() << std::endl;
-    }
-    if(player)
-    {
-        std::cout << "Player name: " << player->GetName() << std::endl;
-        std::cout << "Player skill: " << player->GetSkillLevel() << std::endl;
-        std::cout << "Player XP: " << player->GetXP() << std::endl;
-    }
-}
+    std::cout << "Level: " << game.level << std::endl;
 
-void Registry::printINI()
-{
-    // m_iniHandler.generate(std::cout);
+    std::cout << "Last Command: " << event_man.GetLastUserCommand_FromRegistry() << std::endl;
+
+    std::cout << "Player name: " << player.GetName() << std::endl;
+    std::cout << "Player skill: " << player.GetSkillLevel() << std::endl;
+    std::cout << "Player XP: " << player.GetXP() << std::endl;
+
 }

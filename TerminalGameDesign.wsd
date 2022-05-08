@@ -21,7 +21,7 @@ package TheKey {
 title Terminal, The Game Class Diagram
 
 Abstract Manager
-Manager <|-- "is-a" PlayerManager
+' Manager <|-- "is-a" PlayerManager
 Manager <|-- "is-a" LevelManager
 Manager <|-- "is-a" EventManager
 Manager : Communicates with Registry
@@ -29,32 +29,39 @@ Manager : ~RegistryPoll()=0
 Manager : ~RegistryPush()=0
 Manager : -ManagerType
 
-note left of Player::skillLevel
-Is this necessary at this point?
-What will a 'skillLevel' grant the player?
-end note
 
-note left of Player::XP
-Same story here... what will leveling up do
-for the player?
-end note
 
-Player --* "has-a" PlayerManager
-Player : -string name
-Player : -int skillLevel
-Player : -int XP
-Player : +GetName()
-Player : +GetSkillLevel()
-Player : +GetXP()
+' note left of Player::skillLevel
+' Is this necessary at this point?
+' What will a 'skillLevel' grant the player?
+' end note
 
-note left of PlayerManager
-Argument: Do we need a "Player"?
-Or do we just need a character name..
-end note
-PlayerManager ---* "has-a" Registry
-PlayerManager : Polls registry for:\n - Player skillLevel\n - Player XP
+' note left of Player::XP
+' Same story here... what will leveling up do
+' for the player?
+' end note
 
-Level <-- "calls" LevelManager
+' Player --* "has-\naccess\n-to" PlayerManager
+' Player : -string name
+' Player : -int skillLevel
+' Player : -int XP
+' Player : +GetName()
+' Player : +GetSkillLevel()
+' Player : +GetXP()
+
+
+
+' note left of PlayerManager
+' Argument: Do we need a "Player"?
+' Or do we just need a character name..
+' end note
+' PlayerManager ---* "has-\naccess\n-to" Registry
+' PlayerManager : Polls registry for:\n - Player skillLevel\n - Player XP
+
+
+
+Level ---* "has-\naccess\n-to" Registry
+Level "pushes an \nEventRequest to the \nEventManager" --> EventManager
 Level : Displays script text to UI
 Level : -int levelID
 Level : -vector<trigger> triggers
@@ -67,23 +74,59 @@ Level : -DisplayMessage()
 Level : -PrintNextScriptLine()
 
 
-LevelManager ---* "has-a" Registry
+LevelManager ----> "launches as \na thread" Level
+LevelManager ---* "has-\naccess\n-to" Registry
 LevelManager : Polls registry for:\n - current level \n - lastCommand for level triggers
 LevelManager : -LaunchLevel()
 LevelManager : -vector<string> commands;
 
-EventManager ---* "has-a" Registry
+Event ---* "has-\naccess\n-to" Registry
+Event : A game or system event
+Event : -int eventID
+
+EventManager ----> "launches as \na thread" Event
+EventManager ---* "has-\naccess\n-to" Registry
+EventManager : Global Manager
 EventManager : Poll for filesystem change events
 EventManager : Poll \~/.bash_history for command entry
+EventManager : +mutex busy_lock
+EventManager : -EventQueue
+EventManager : +Heartbeat() (100msec)
+EventManager : +PushEvent2Queue(EventRequest)
 EventManager : -PollFilesystemChanges()
 EventManager : -PollBashHistory()
 
-Registry : Objectified Registry.ini
-Registry : - Player
-Registry : - Level
-Registry : - Events
-Registry : +Read(type)
-Registry : +Update(type)
+
+
+Registry : Global - Objectified Registry.ini
+Registry : +mutex busy_lock
+Registry : +Heartbeat()(100 msec)
+Registry : -struct Player
+Registry : -struct Level
+Registry : -struct Events
+Registry : -Read()
+Registry : -Update()
+
+
+
+' Layout options
+EventManager -[hidden]left-> EventManager
+EventManager -[hidden]right-> LevelManager
+
+package "main.cpp"
+{
+    note as 1
+        Globals:
+            EventManager
+                -->Event threads
+            Registry
+
+        Objects in main:
+            LevelManager
+                --> Level threads
+    end note
+}
+
 
 @enduml
 
@@ -95,24 +138,24 @@ title Game Engine Design
 Gamefiles are installed appropriately
 echo startScript into \~/.bashrc;
 start
-:\~/.bashrc calls startScript;
-switch (startScript calls)
+' :\~/.bashrc calls Terminal game;
+switch(\~/.bashrc calls Terminal game)
+' switch (startScript calls)
+' case ()
+'     :PlayerManager
+'     Background process;
+'     start
+'     repeat
+'         :Registry poll;
+'         :Perform Player logic;
+'         backward:Registry push;
+'     repeat while (killsignal) is (no)
+'         ->yes;
+'     end
 case ()
-    :PlayerManager.bin
-    Background process;
+    :EventManager;
     start
-    repeat
-        :Registry poll;
-        :Perform Player logic;
-        backward:Registry push;
-    repeat while (killsignal) is (no)
-        ->yes;
-    end
-case ()
-    :EventManager.bin
-    Background process;
-    start
-    repeat
+    repeat:heartbeat
         :Registry poll;
         :Poll Last Command;
         :Poll Filesystem changes;
@@ -121,15 +164,13 @@ case ()
         ->yes;
     end
 case ()
-    :LevelManager.bin
-    Background process;
+    :LevelManager;
     start
-    repeat
+    repeat:heartbeat
         :Registry poll;
-        :Launch Level(n).bin;
-        :Display message;
+        :Launch Level(n);
         start
-        repeat
+        repeat:heartbeat
         :Registry poll;
         if (lastCommand == goal trigger(s)?) then (yes)
             :Display Message;
@@ -149,6 +190,14 @@ case ()
 
     backward:Registry push;
     repeat while (killsignal) is (no)
+    end
+case ()
+    :Registry;
+    start
+    repeat:heartbeat
+
+    repeat while (killsignal) is (no)
+
     end
 endswitch
 

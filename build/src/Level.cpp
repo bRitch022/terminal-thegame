@@ -2,12 +2,113 @@
 
 #include <fstream>
 #include <iostream>
+#include "LinuxUtils.h"
 #include "Level.h"
+#include "Registry.h"
 #include "nlohmann/json.hpp"
+
+extern Registry g_Reg;
 
 using namespace nlohmann;
 
-Level::Level(const std::string level_dir, const std::string out_pts) : m_level_dir(level_dir), m_out_pts(out_pts) {}
+Level::Level()
+{
+    memset(m_current_state, 0, sizeof(m_current_state));
+}
+Level::~Level()
+{
+    if(m_current_state) delete(m_current_state);
+}
+
+bool Level::init(int levelID, std::string level_dir, std::string out_pts)
+{
+    m_levelID = levelID;
+    m_level_dir = level_dir;
+    m_out_pts = out_pts;
+    *m_current_state = START;
+
+    return true;
+}
+
+/**
+ * @brief
+ * @todo Instead of Displaying message manually, send an EventRequest to the EventManager
+ * For now, this is probably the quickest and most efficient way until there are
+ * a lot of simultaneous events that need to be managed
+ */
+void Level::heartbeat()
+{
+    if(!g_Reg.GetKillSwitch())
+    {
+        switch(*m_current_state)
+        {
+            case START:
+
+            break;
+
+            case PRELUDE:
+            {
+                bool printed = false;
+
+                // which script line needs printing?
+                for(auto line : prelude_script)
+                {
+                    if(!line.printed)
+                    {
+                        DisplayMessage(line.msg);
+                        // TODO (BAR): // DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
+                        line.printed = true;
+                        printed = true;
+                    }
+                }
+
+                if(!printed) // no messages left to print
+                {
+                    // Transition to the next state
+                    *m_current_state = RUNNING;
+                }
+            }
+            break;
+            case RUNNING:
+                // check the action triggers
+            break;
+
+            case INTERLUDE:
+            break;
+
+            case EXIT:
+            break;
+
+        }
+    }
+    else
+    {
+        std::cout << "Killswitch signal -- shutting down" << std::endl;
+
+        exit(0);
+    }
+}
+
+bool Level::Launch(std::string levelFile)
+{
+    bool rc = false;
+
+    std::ifstream f_levelFile(levelFile);
+
+    if(!f_levelFile.is_open())
+    {
+        std::cout << "Couldn't open " << levelFile << std::endl;
+        return rc;
+    }
+
+    if(ParseJSON(f_levelFile))
+    {
+        m_launched = true;
+        rc = true;
+    }
+
+    return rc;
+}
 
 bool Level::ParseJSON(std::ifstream& j_file)
 {
@@ -175,3 +276,44 @@ bool Level::PrintNextScriptLine(std::vector<scriptLine>& script)
     return rc;
 }
 
+// /**
+//  * @brief This test is outdated (5/7/2022) TODO(BAR): Move this to Unit Testing
+//  * @brief To start, call:
+//  * Level <registry.ini location> <level directory> <output terminal>
+//  *
+//  * @todo Do we need some getopt parameter parsing? It's not user accessible, so probably not
+//  *
+//  * @param argc
+//  * @param argv
+//  * @return int
+//  */
+// int main(int argc, char** argv)
+// {
+//     if(argc <= 4)
+//     {
+//         std::cout << "ERROR: Must supply a registry.ini location, level directory location and output pseudo-terminal" << std::endl;
+//         return -1;
+//     }
+//     std::string regDir = argv[1];
+//     std::string levelDir = argv[2];
+//     std::string out_pts = argv[3];
+
+//     Level *p_level;
+//     Registry p_registry(regDir);
+
+//     int levelID = p_registry.level->GetLevelID();
+//     if(checkForLevel(levelDir, levelID))
+//     {
+//         p_level = new Level(levelID, levelDir, GetStdoutFromCommand("tty"));
+//     }
+//     else
+//     {
+//         std::cout << "ERROR: Level file not found" << std::endl;
+//         return -1;
+//     }
+
+
+
+// exit_main:
+//     delete(p_level);
+// }

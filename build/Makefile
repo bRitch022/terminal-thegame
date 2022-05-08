@@ -3,8 +3,8 @@
 export OBJ_DIR 		= $(BUILD_DIR)obj/
 export BIN_DIR		= $(BUILD_DIR)bin/
 
-MKSOURCES += EventManager.mk
-MKSOURCES += LevelManager.mk
+# MKSOURCES += EventManager.mk Deprecated for now (BAR): 5/7/2021
+MKSOURCES += Terminal.mk
 
 .PHONY: all clean
 

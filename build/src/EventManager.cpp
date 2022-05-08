@@ -1,9 +1,23 @@
 // EventManager.cpp
 
 #include "EventManager.h"
+#include "LinuxUtils.h"
 #include <fstream>
 #include <iostream>
 
+// EventManager::EventManager() : Manager("event") {}
+
+/**
+ * @brief
+ * @todo @BAR
+ *
+ * @return true
+ * @return false
+ */
+bool EventManager::heartbeat()
+{
+    return true;
+}
 /**
  * @brief Read ~/.bash_history and obtain the last command entered by the user
  *
@@ -65,3 +79,12 @@ void EventManager::SetLastCommand_FromRegistry(std::string val)
 {
     m_lastUserCommand = val;
 }
+
+// bool EventManager::RegistryPoll()
+// {
+
+// }
+// bool EventManager::RegistryPush()
+// {
+
+// }

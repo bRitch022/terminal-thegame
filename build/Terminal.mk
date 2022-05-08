@@ -1,4 +1,4 @@
-# LevelManager.mk
+# Terminal.mk
 
 # Version Details
 APP_MAJ		:=	$(shell grep MAJOR_RELEASE ./src/version.h | tr -d '"' | awk '{print $$3'} )
@@ -6,7 +6,7 @@ APP_MIN		:=	$(shell grep MINOR_RELEASE ./src/version.h | tr -d '"' | awk '{print
 PATCH		:=	$(shell grep PATCH ./src/version.h | tr -d '"' | awk '{print $$3'} )
 
 # Executable filename details
-EXEC_BASE 	= 	LevelManager
+EXEC_BASE 	= 	Terminal
 EXEC		= 	$(BIN_DIR)$(EXEC_BASE)-$(APP_MAJ).$(APP_MIN).$(PATCH)$(DEBUG_NAME)
 EXEC_MD5	= 	$(addsuffix .md5, $(EXEC))
 
@@ -18,10 +18,12 @@ INI_DIR			= $(BUILD_DIR)LeksysINI/
 JSON_DIR		= $(BUILD_DIR)json/include/
 
 # Sources
+CPPSOURCES += $(SRC_DIR)main.cpp
 CPPSOURCES += $(SRC_DIR)Registry.cpp
-CPPSOURCES += $(SRC_DIR)Manager.cpp
 CPPSOURCES += $(SRC_DIR)Level.cpp
 CPPSOURCES += $(SRC_DIR)LevelManager.cpp
+CPPSOURCES += $(SRC_DIR)EventManager.cpp
+
 
 # Object files
 COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
@@ -30,6 +32,7 @@ COBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(notdir $(CPPSOURCES)))
 CXX = /usr/bin/g++
 CFLAGS += -I$(SRC_DIR)
 CFLAGS += -I$(INI_DIR)
+CFLAGS += -I$(JSON_DIR)
 CFLAGS += -std=c++17
 
 ifeq ($(DEBUG), 1)

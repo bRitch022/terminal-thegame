@@ -1,0 +1,17 @@
+{
+    "Title":"Level 2",
+    "Level":2,
+    "XP-Gained":100,
+    "Prelude-Script":[
+        {"TypewriterDelay":0.01, "msg":""}
+    ],
+    "Action-Triggers":
+    [
+        {"Name":"", "TriggerType":"BashHistory","TriggerAction":"","TriggerMessage":""}
+    ],
+    "Goal-Triggers": [ ""],
+    "Interlude-Script":
+    [
+        {"TypewriterDelay":0.01, "msg":""},
+    ]
+}

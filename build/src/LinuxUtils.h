@@ -1,9 +1,12 @@
-// Manager.cpp
+// LinuxUtils.h
 
-#include "Manager.h"
+#ifndef LINUX_UTILS_H
+#define LINUX_UTILS_H
 
-std::string Manager::GetStdoutFromCommand(std::string cmd) {
+#include <string>
 
+std::string GetStdoutFromCommand(std::string cmd)
+{
   std::string data;
   FILE * stream;
   const int max_buffer = 256;
@@ -19,3 +22,5 @@ std::string Manager::GetStdoutFromCommand(std::string cmd) {
   }
   return data;
 }
+
+#endif
