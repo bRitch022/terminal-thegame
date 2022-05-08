@@ -24,6 +24,8 @@ int main(int argc, char** argv)
 {
     int rc = 0;
 
+    std::cout << "TERMINAL: Game Started" << std::endl;
+
     if(argc <= 2)
     {
         std::cout << "Requires 2 arguments, only " << argc - 1 << " provided" << std::endl;
@@ -59,15 +61,6 @@ int main(int argc, char** argv)
     while(!g_Reg.GetKillSwitch())
     {
         g_Reg.heartbeat();
-
-        // TODO
-        // to LevelManager::heartbeat
-        // if(!currentLevel || (currentLevel && currentLevel->GetLevelID() != g_Reg.level.GetLevelID()))
-        // {
-        //     // Select current level
-        //     currentLevel = &g_Reg.level;
-
-        // }
 
         LevelMan.heartbeat();
         g_EventMan.heartbeat();

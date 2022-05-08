@@ -19,4 +19,4 @@ debug:
 all: release debug
 
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) ../game/bin/

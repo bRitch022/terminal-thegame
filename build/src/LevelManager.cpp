@@ -24,12 +24,15 @@ bool LevelManager::heartbeat()
         currentLevel = &g_Reg.level;
     }
 
+    std::cout << "LevelManager::heartbeat currentLevelID: " << currentLevel->GetLevelID() << std::endl;
+
     if(!currentLevel->launched())
     {
         if(LevelFilePresent(currentLevel->GetLevelID()))
         {
             int levelID = g_Reg.level.GetLevelID();
             currentLevel->init(levelID, m_levelDir, GetStdoutFromCommand("tty"));
+            std::cout << "Launching level " << levelID << std::endl;
             LaunchLevel(levelID);
         }
         else

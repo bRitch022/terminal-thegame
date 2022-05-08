@@ -26,7 +26,7 @@ class Registry {
 public:
 
     Registry() {}
-    ~Registry();
+    ~Registry() {}
 
     bool init(const std::string iniFile);
     bool heartbeat();

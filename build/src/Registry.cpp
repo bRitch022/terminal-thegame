@@ -49,8 +49,8 @@ bool Registry::read()
 
         f_iniFile >> m_iniHandler;
     }
-
-    game.version = m_iniHandler.GetSection("Game")->GetValue("version").AsString();
+    std::string version = m_iniHandler.GetSection("Game")->GetValue("version").AsString();
+    game.version = version;
     game.level = m_iniHandler.GetSection("Game")->GetValue("level").AsInt();
     game.killswitch = m_iniHandler.GetSection("Game")->GetValue("killswitch").AsBool();
 
@@ -69,6 +69,7 @@ bool Registry::read()
     player_skillLevel = m_iniHandler.GetSection("Player")->GetValue("skill-level").AsInt();
     player_XP = m_iniHandler.GetSection("Player")->GetValue("XP").AsInt();
 
+    player.SetName(player_name);
     player.SetSkillLevel(player_skillLevel);
     player.SetXP(player_XP);
 
@@ -121,6 +122,7 @@ void Registry::print()
 {
     std::cout << "Game version: " << game.version << std::endl;
     std::cout << "Level: " << game.level << std::endl;
+    std::cout << "Killswitch: " << game.killswitch << std::endl;
 
     std::cout << "Last Command: " << event_man.GetLastUserCommand_FromRegistry() << std::endl;
 

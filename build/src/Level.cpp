@@ -25,6 +25,7 @@ bool Level::init(int levelID, std::string level_dir, std::string out_pts)
     m_levelID = levelID;
     m_level_dir = level_dir;
     m_out_pts = out_pts;
+    // m_out_pts = "/dev/pts/0"; // TODO (BAR): Remove this, it's only temporary
     *m_current_state = START;
 
     return true;
@@ -43,18 +44,16 @@ void Level::heartbeat()
         switch(*m_current_state)
         {
             case START:
-
-            break;
-
             case PRELUDE:
             {
                 bool printed = false;
-
+                std::cout << "prelude_script lines: " << prelude_script.size() << std::endl;
                 // which script line needs printing?
                 for(auto line : prelude_script)
                 {
                     if(!line.printed)
                     {
+                        std::cout << "Getting ready to print" << std::endl;
                         DisplayMessage(line.msg);
                         // TODO (BAR): // DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
                         line.printed = true;
