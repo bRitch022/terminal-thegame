@@ -195,7 +195,14 @@ case ()
     :Registry;
     start
     repeat:heartbeat
+        :read from Registry.ini;
+        if(manual changes ?) then (yes)
+            :pull changes;
+        endif
 
+        if(updates finished from managers?) then (yes)
+            :push changes;
+        endif
     repeat while (killsignal) is (no)
 
     end
