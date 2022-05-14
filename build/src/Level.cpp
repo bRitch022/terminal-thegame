@@ -47,13 +47,13 @@ void Level::heartbeat()
             case PRELUDE:
             {
                 bool printed = false;
-                std::cout << "prelude_script lines: " << prelude_script.size() << std::endl;
+                std::cout << "Level::heartbeat prelude_script lines: " << prelude_script.size() << std::endl;
                 // which script line needs printing?
                 for(auto line : prelude_script)
                 {
                     if(!line.printed)
                     {
-                        std::cout << "Getting ready to print" << std::endl;
+                        std::cout << "Level::heartbeat Getting ready to print" << std::endl;
                         DisplayMessage(line.msg);
                         // TODO (BAR): // DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
                         line.printed = true;
@@ -82,7 +82,7 @@ void Level::heartbeat()
     }
     else
     {
-        std::cout << "Killswitch signal -- shutting down" << std::endl;
+        std::cout << "Level::heartbeat Killswitch signal -- shutting down" << std::endl;
 
         exit(0);
     }
@@ -96,7 +96,7 @@ bool Level::Launch(std::string levelFile)
 
     if(!f_levelFile.is_open())
     {
-        std::cout << "Couldn't open " << levelFile << std::endl;
+        std::cout << "Level::heartbeat Couldn't open " << levelFile << std::endl;
         return rc;
     }
 
@@ -119,7 +119,7 @@ bool Level::ParseJSON(std::ifstream& j_file)
     {
         if(j.contains("Level") && j["Level"].is_number_integer() && m_levelID != j["Level"])
         {
-            std::cout << "JSON Level and levelID don't match" << std::endl;
+            std::cout << "Level::heartbeat JSON Level and levelID don't match" << std::endl;
             return false;
         }
 
@@ -146,7 +146,7 @@ bool Level::ParseJSON(std::ifstream& j_file)
                 }
                 else
                 {
-                    std::cout << "ERROR:Scripts need to include both a TypewriterDelay and a msg" << std::endl;
+                    std::cout << "Level::heartbeatERROR:Scripts need to include both a TypewriterDelay and a msg" << std::endl;
                     rc = false;
                     continue;
                 }
@@ -180,7 +180,7 @@ bool Level::ParseJSON(std::ifstream& j_file)
                             tmp.triggerMessage = j["Action-Triggers"][i]["TriggerMessage"];
                         }
                         else
-                            std::cout << "ERROR:Expected a TriggerMessage for a TriggerAction type of 'print'" << std::endl;
+                            std::cout << "Level::heartbeatERROR:Expected a TriggerMessage for a TriggerAction type of 'print'" << std::endl;
                             rc = false;
                             continue;
                     }
@@ -218,7 +218,7 @@ bool Level::ParseJSON(std::ifstream& j_file)
                 }
                 else
                 {
-                    std::cout << "ERROR:Scripts need to include both a TypewriterDelay and a msg" << std::endl;
+                    std::cout << "Level::heartbeatERROR:Scripts need to include both a TypewriterDelay and a msg" << std::endl;
                     rc = false;
                     continue;
                 }
@@ -227,7 +227,7 @@ bool Level::ParseJSON(std::ifstream& j_file)
      }
     else
     {
-        std::cout << "ERROR:JSON file does not contain an object" << std::endl;
+        std::cout << "Level::heartbeatERROR:JSON file does not contain an object" << std::endl;
         rc = false;
     }
 

@@ -24,24 +24,24 @@ int main(int argc, char** argv)
 {
     int rc = 0;
 
-    std::cout << "TERMINAL: Game Started" << std::endl;
+    std::cout << "TERMINAL main | Game Started" << std::endl;
 
     if(argc <= 2)
     {
-        std::cout << "Requires 2 arguments, only " << argc - 1 << " provided" << std::endl;
+        std::cout << "TERMINAL main | ERROR: Requires 2 arguments, only " << argc - 1 << " provided" << std::endl;
         return -1; // TODO (BAR): Create enum of return codes
     }
     else
     {
         if(strstr(argv[1], "Registry.ini") == NULL)
         {
-            std::cout << "Missing argument: Registry.ini" << std::endl;
+            std::cout << "TERMINAL main | ERROR: Missing argument: Registry.ini" << std::endl;
             return -1;
         }
 
         if(strstr(argv[2], "/") == NULL)
         {
-            std::cout << "Missing argument: Level source directory" << std::endl;
+            std::cout << "TERMINAL main | ERROR: Missing argument: Level source directory" << std::endl;
             return -1;
         }
     }
@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 
     if(!g_Reg.init(regFile))
     {
-        std::cout << "Unable to start registry with provided file" << std::endl;
+        std::cout << "TERMINAL main | ERROR: Unable to start registry with provided file" << std::endl;
         return -1;
     }
 

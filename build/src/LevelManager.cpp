@@ -32,12 +32,12 @@ bool LevelManager::heartbeat()
         {
             int levelID = g_Reg.level.GetLevelID();
             currentLevel->init(levelID, m_levelDir, GetStdoutFromCommand("tty"));
-            std::cout << "Launching level " << levelID << std::endl;
+            std::cout << "LevelManager::heartbeat Launching level " << levelID << std::endl;
             LaunchLevel(levelID);
         }
         else
         {
-            std::cout << "Level " << currentLevel->GetLevelID() << " not found" << std::endl;
+            std::cout << "LevelManager::heartbeat ERROR: Level " << currentLevel->GetLevelID() << " not found" << std::endl;
             return false;
         }
 
@@ -64,7 +64,7 @@ bool LevelManager::LaunchLevel(int levelID)
     }
     else
     {
-        std::cout << "Couldn't launch level with level file: " << levelFile << std::endl;
+        std::cout << "LevelManager::LaunchLevel(" << levelID << ") ERROR: Couldn't launch level with level file: " << levelFile << std::endl;
         return false;
     }
 }

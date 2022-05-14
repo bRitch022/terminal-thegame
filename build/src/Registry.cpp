@@ -11,7 +11,9 @@ bool Registry::init(const std::string iniFile)
     memset(&player, 0, sizeof(player));
     memset(&level, 0, sizeof(level));
 
-    return read();
+    bool rc = read();
+    rc ? std::cout << "Registry::init(" << iniFile << ") | Registry Initialized" << std::endl : std::cout << "Registry Initialize Failure" << std::endl;
+    return rc; 
 }
 
 /**
@@ -43,7 +45,7 @@ bool Registry::read()
         std::ifstream f_iniFile(m_iniFile);
         if(!f_iniFile.is_open())
         {
-            std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
+            std::cout << "Registry::read | ERROR: Cannot read " << m_iniFile << std::endl;
             return false;
         }
 
@@ -74,7 +76,7 @@ bool Registry::read()
     player.SetXP(player_XP);
 
 #ifdef DEBUG
-    system("clear");
+    // system("clear");
     print();
 #endif
 
@@ -96,7 +98,7 @@ bool Registry::update()
         std::ofstream f_iniFile(m_iniFile);
         if(!f_iniFile.is_open())
         {
-            std::cout << "ERROR: Cannot read " << m_iniFile << std::endl;
+            std::cout << "Registry::update | ERROR: Cannot read " << m_iniFile << std::endl;
             return false;
         }
 

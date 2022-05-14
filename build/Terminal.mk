@@ -59,7 +59,7 @@ $(EXEC_MD5): $(EXEC)
 $(EXEC): $(OBJ_DIR) $(COBJ) $(BIN_DIR) $(GAME_BIN_DIR)
 	$(CXX) $(CFLAGS) $(LDFLAGS) $(COBJ) -o $@
 	md5sum $(EXEC) > $(addsuffix .md5, $(EXEC))
-	cp $@ $(GAME_BIN_DIR)$(EXEC_BASE)
+	cp $@ $(GAME_BIN_DIR)$(EXEC_BASE)$(DEBUG_NAME)
 
 $(GAME_BIN_DIR):
 	@mkdir -p $@

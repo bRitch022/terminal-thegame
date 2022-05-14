@@ -34,7 +34,7 @@ std::string EventManager::GetLastUserCommand_FromBashHistory()
 
     if(!f_file)
     {
-        std::cout << "ERROR: Unable to open " + historyFile << std::endl;
+        std::cout << "EventManager::GetLastUserCommand_FromBashHistory | ERROR: Unable to open " + historyFile << std::endl;
         return "NULL";
     }
 
