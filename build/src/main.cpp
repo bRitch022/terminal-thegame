@@ -65,6 +65,7 @@ int main(int argc, char** argv)
         LevelMan.heartbeat();
         g_EventMan.heartbeat();
 
+        exit(1); // TODO (BAR): Remove this, just for testing
     }
 
     return rc;

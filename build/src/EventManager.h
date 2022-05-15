@@ -6,6 +6,7 @@
 #include <string>
 // #include "Manager.h"
 
+
 // class EventManager : public Manager // TODO (BAR)
 class EventManager
 {
@@ -27,5 +28,7 @@ private:
     int m_level;
     std::string m_lastUserCommand;
 };
+
+extern EventManager g_EventMan;
 
 #endif

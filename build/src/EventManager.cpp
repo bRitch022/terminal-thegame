@@ -16,6 +16,7 @@
  */
 bool EventManager::heartbeat()
 {
+    std::cout << "EventManager::heartbeat" << std::endl;
     return true;
 }
 /**

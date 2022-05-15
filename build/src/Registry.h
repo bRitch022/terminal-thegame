@@ -48,4 +48,6 @@ private:
     INI::File m_iniHandler;
 };
 
+extern Registry g_Reg;
+
 #endif

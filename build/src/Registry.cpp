@@ -25,6 +25,8 @@ bool Registry::init(const std::string iniFile)
  */
 bool Registry::heartbeat()
 {
+    std::cout << "Registry Level ID: " << g_Reg.GetGameLevel() << std::endl;
+    std::cout << "Registry Level ID: " << g_Reg.level.GetLevelID() << std::endl;
     return true;
 }
 

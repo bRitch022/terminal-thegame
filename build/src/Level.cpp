@@ -7,13 +7,12 @@
 #include "Registry.h"
 #include "nlohmann/json.hpp"
 
-extern Registry g_Reg;
-
 using namespace nlohmann;
 
 Level::Level()
 {
-    memset(m_current_state, 0, sizeof(m_current_state));
+    // memset(m_current_state, 0, sizeof(m_current_state));
+    m_current_state = NULL;
 }
 Level::~Level()
 {

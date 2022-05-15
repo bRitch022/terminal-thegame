@@ -10,11 +10,10 @@
 #include <iostream>
 #include <thread>
 
-extern Registry g_Reg;
-
 void LevelManager::init(std::string levelDir)
 {
     m_levelDir = levelDir;
+    currentLevel = NULL;
 }
 
 bool LevelManager::heartbeat()
@@ -22,16 +21,19 @@ bool LevelManager::heartbeat()
     if(!currentLevel)
     {
         currentLevel = &g_Reg.level;
+        std::cout << "LevelManager::heartbeat | currentLevel->GetLevelID: " << std::to_string(g_Reg.level.GetLevelID()) << std::endl;
     }
 
-    std::cout << "LevelManager::heartbeat currentLevelID: " << currentLevel->GetLevelID() << std::endl;
+    std::cout << "LevelManager::heartbeat currentLevelID: " << std::to_string(currentLevel->GetLevelID()) << std::endl;
 
     if(!currentLevel->launched())
     {
-        if(LevelFilePresent(currentLevel->GetLevelID()))
+        // if(LevelFilePresent(currentLevel->GetLevelID()))
+        if(LevelFilePresent(1))
         {
-            int levelID = g_Reg.level.GetLevelID();
-            currentLevel->init(levelID, m_levelDir, GetStdoutFromCommand("tty"));
+            int levelID = 1; // TODO (BAR): Remove this and uncomment next line
+            // int levelID = g_Reg.level.GetLevelID();
+            currentLevel->init(levelID, m_levelDir, GetStdoutFromCommand("tty | tr -d '\n'"));
             std::cout << "LevelManager::heartbeat Launching level " << levelID << std::endl;
             LaunchLevel(levelID);
         }
