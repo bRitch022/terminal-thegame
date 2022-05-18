@@ -37,6 +37,7 @@ public:
     bool GetGameLevel() { return game.level; }
     bool GetKillSwitch() { return game.killswitch; }
 
+    void Kill() { game.killswitch = true; }
 
     Game game;
     Player player;

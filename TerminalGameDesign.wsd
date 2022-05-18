@@ -168,25 +168,27 @@ case ()
     start
     repeat:heartbeat
         :Registry poll;
-        :Launch Level(n);
-        start
-        repeat:heartbeat
-        :Registry poll;
-        if (lastCommand == goal trigger(s)?) then (yes)
-            :Display Message;
-            :Registry:LevelGoals++;
-            if (trigger == last?) then (yes)
-                :Level Increment;
-                :Registry push;
-                stop
+        if (correctLevel.launched?) then (no)
+            :Launch Level(n);
+            start
+            repeat:heartbeat
+            :Registry poll;
+            if (lastCommand == goal trigger(s)?) then (yes)
+                :Display Message;
+                :Registry:LevelGoals++;
+                if (trigger == last?) then (yes)
+                    :Level Increment;
+                    :Registry push;
+                    stop
+                else
+                    ->no;
+                endif
             else
                 ->no;
             endif
-        else
-            ->no;
+            backward:Registry push;
+            repeat while (trigger != last) is (no)
         endif
-        backward:Registry push;
-        repeat while (trigger != last) is (no)
 
     backward:Registry push;
     repeat while (killsignal) is (no)

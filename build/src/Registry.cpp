@@ -12,8 +12,8 @@ bool Registry::init(const std::string iniFile)
     memset(&level, 0, sizeof(level));
 
     bool rc = read();
-    rc ? std::cout << "Registry::init(" << iniFile << ") | Registry Initialized" << std::endl : std::cout << "Registry Initialize Failure" << std::endl;
-    return rc; 
+    rc ? std::cout << "Registry::init(" << iniFile << ") | DEBUG | Registry Initialized" << std::endl : std::cout << "Registry Initialize Failure" << std::endl;
+    return rc;
 }
 
 /**
@@ -25,8 +25,12 @@ bool Registry::init(const std::string iniFile)
  */
 bool Registry::heartbeat()
 {
-    std::cout << "Registry Level ID: " << g_Reg.GetGameLevel() << std::endl;
-    std::cout << "Registry Level ID: " << g_Reg.level.GetLevelID() << std::endl;
+    std::cout << "Registry::heartbeat | DEBUG | Registry Level ID: " << g_Reg.level.GetLevelID() << std::endl;
+    if ( game.killswitch )
+    {
+        exit (0);
+    }
+
     return true;
 }
 
@@ -47,7 +51,7 @@ bool Registry::read()
         std::ifstream f_iniFile(m_iniFile);
         if(!f_iniFile.is_open())
         {
-            std::cout << "Registry::read | ERROR: Cannot read " << m_iniFile << std::endl;
+            std::cout << "Registry::read | ERROR | Cannot read " << m_iniFile << std::endl;
             return false;
         }
 
@@ -55,7 +59,7 @@ bool Registry::read()
     }
     std::string version = m_iniHandler.GetSection("Game")->GetValue("version").AsString();
     game.version = version;
-    game.level = m_iniHandler.GetSection("Game")->GetValue("level").AsInt();
+    level.SetLevelID(m_iniHandler.GetSection("Game")->GetValue("level").AsInt());
     game.killswitch = m_iniHandler.GetSection("Game")->GetValue("killswitch").AsBool();
 
     std::string engine_lastUserCommand = m_iniHandler.GetSection("Events")->GetValue("last-command").AsString();
@@ -100,7 +104,7 @@ bool Registry::update()
         std::ofstream f_iniFile(m_iniFile);
         if(!f_iniFile.is_open())
         {
-            std::cout << "Registry::update | ERROR: Cannot read " << m_iniFile << std::endl;
+            std::cout << "Registry::update | ERROR | Cannot read " << m_iniFile << std::endl;
             return false;
         }
 

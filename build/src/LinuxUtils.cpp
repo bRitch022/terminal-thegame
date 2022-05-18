@@ -1,6 +1,7 @@
 // LinuxUtils.cpp
 
 #include "LinuxUtils.h"
+#include <iostream>
 
 std::string GetStdoutFromCommand(std::string cmd)
 {
@@ -17,5 +18,6 @@ std::string GetStdoutFromCommand(std::string cmd)
       if (fgets(buffer, max_buffer, stream) != NULL) data.append(buffer);
     pclose(stream);
   }
+  std::cout << "GetStdoutFromCommand(" << cmd << ") | DEBUG | Result: " << data << std::endl;
   return data;
 }

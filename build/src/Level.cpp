@@ -12,11 +12,9 @@ using namespace nlohmann;
 Level::Level()
 {
     // memset(m_current_state, 0, sizeof(m_current_state));
-    m_current_state = NULL;
 }
 Level::~Level()
 {
-    if(m_current_state) delete(m_current_state);
 }
 
 bool Level::init(int levelID, std::string level_dir, std::string out_pts)
@@ -25,7 +23,7 @@ bool Level::init(int levelID, std::string level_dir, std::string out_pts)
     m_level_dir = level_dir;
     m_out_pts = out_pts;
     // m_out_pts = "/dev/pts/0"; // TODO (BAR): Remove this, it's only temporary
-    *m_current_state = START;
+    m_current_state = START;
 
     return true;
 }
@@ -40,19 +38,18 @@ void Level::heartbeat()
 {
     if(!g_Reg.GetKillSwitch())
     {
-        switch(*m_current_state)
+        switch(m_current_state)
         {
             case START:
             case PRELUDE:
             {
                 bool printed = false;
-                std::cout << "Level::heartbeat prelude_script lines: " << prelude_script.size() << std::endl;
+                std::cout << "Level::heartbeat | DEBUG | prelude_script lines: " << prelude_script.size() << std::endl;
                 // which script line needs printing?
                 for(auto line : prelude_script)
                 {
                     if(!line.printed)
                     {
-                        std::cout << "Level::heartbeat Getting ready to print" << std::endl;
                         DisplayMessage(line.msg);
                         // TODO (BAR): // DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
                         line.printed = true;
@@ -63,7 +60,8 @@ void Level::heartbeat()
                 if(!printed) // no messages left to print
                 {
                     // Transition to the next state
-                    *m_current_state = RUNNING;
+
+                    m_current_state = RUNNING;
                 }
             }
             break;

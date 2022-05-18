@@ -39,6 +39,7 @@ public:
     void heartbeat();
 
     bool Launch(std::string levelFile);
+    void SetLevelID(int levelID) { m_levelID = levelID; }
     int GetLevelID() { return m_levelID; }
     int GetTriggerNum() { return goal_triggers.size(); }
     int GetGrantedXP() { return m_grantedXP; }
@@ -52,7 +53,7 @@ private:
     bool DisplayMessage(std::string& msg);
     bool PrintNextScriptLine(std::vector<scriptLine>& script);
 
-    levelState *m_current_state = new levelState;
+    levelState m_current_state;
 
     int m_levelID;
     int m_grantedXP;
