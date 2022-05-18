@@ -46,13 +46,14 @@ void Level::heartbeat()
                 bool printed = false;
                 std::cout << "Level::heartbeat | DEBUG | prelude_script lines: " << prelude_script.size() << std::endl;
                 // which script line needs printing?
-                for(auto line : prelude_script)
+
+                for(int i = 0; i < prelude_script.size(); i++)
                 {
-                    if(!line.printed)
+                    if(!prelude_script[i].printed)
                     {
-                        DisplayMessage(line.msg);
+                        DisplayMessage(prelude_script[i].msg);
                         // TODO (BAR): // DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
-                        line.printed = true;
+                        prelude_script[i].printed = true;
                         printed = true;
                     }
                 }

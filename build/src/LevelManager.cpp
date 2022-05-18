@@ -28,8 +28,7 @@ bool LevelManager::heartbeat()
 
     if(!currentLevel->launched())
     {
-        // if(LevelFilePresent(currentLevel->GetLevelID()))
-        if(LevelFilePresent(1))
+        if(LevelFilePresent(currentLevel->GetLevelID()))
         {
             int levelID = g_Reg.level.GetLevelID();
             std::cout << "LevelManager::heartbeat | DEBUG | Launching level " << levelID << std::endl;
@@ -90,6 +89,7 @@ bool LevelManager::LevelFilePresent(int levelID)
             {
                 found = true;
                 std::cout << "LevelManager::LevelFilePresent(" << levelID << ") | DEBUG | Level found: (actual)" << levelNum << "=(expected)" << levelID << std::endl;
+                break;
             }
         }
     }
