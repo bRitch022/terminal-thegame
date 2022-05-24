@@ -3,14 +3,14 @@
     "Level":2,
     "XP-Gained":100,
     "Prelude-Script":[
-        {"TypewriterDelay":0.01, "msg":"Ya fuckin fahk! You got to the level too soon"},
+        {"TypewriterDelay":0.01, "msg":"Ahh! You got to the level too soon"},
         {"TypewriterDelay":0.01, "msg":"Go back now, or ya gunna dieee"}
     ],
     "Action-Triggers":
     [
         {"Name":"", "TriggerType":"BashHistory","TriggerAction":"","TriggerMessage":""}
     ],
-    "Goal-Triggers": [ ""],
+    "Goal-Triggers": [""],
     "Interlude-Script":
     [
         {"TypewriterDelay":0.01, "msg":""}

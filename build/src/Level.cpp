@@ -2,27 +2,23 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <unistd.h>
+#include <cstdio>
+
 #include "LinuxUtils.h"
 #include "Level.h"
 #include "Registry.h"
+
 #include "nlohmann/json.hpp"
 
 using namespace nlohmann;
-
-Level::Level()
-{
-    // memset(m_current_state, 0, sizeof(m_current_state));
-}
-Level::~Level()
-{
-}
 
 bool Level::init(int levelID, std::string level_dir, std::string out_pts)
 {
     m_levelID = levelID;
     m_level_dir = level_dir;
     m_out_pts = out_pts;
-    // m_out_pts = "/dev/pts/0"; // TODO (BAR): Remove this, it's only temporary
     m_current_state = START;
 
     return true;
@@ -31,7 +27,7 @@ bool Level::init(int levelID, std::string level_dir, std::string out_pts)
 /**
  * @brief
  * @todo Instead of Displaying message manually, send an EventRequest to the EventManager
- * For now, this is probably the quickest and most efficient way until there are
+ * For now though, this is probably the quickest and most efficient way until there are
  * a lot of simultaneous events that need to be managed
  */
 void Level::heartbeat()
@@ -47,30 +43,22 @@ void Level::heartbeat()
                 std::cout << "Level::heartbeat | DEBUG | prelude_script lines: " << prelude_script.size() << std::endl;
                 // which script line needs printing?
 
-                for(int i = 0; i < prelude_script.size(); i++)
-                {
-                    if(!prelude_script[i].printed)
-                    {
-                        DisplayMessage(prelude_script[i].msg);
-                        // TODO (BAR): // DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
-                        prelude_script[i].printed = true;
-                        printed = true;
-                    }
-                }
+                printed = PrintNextScriptLine(prelude_script);
 
                 if(!printed) // no messages left to print
                 {
                     // Transition to the next state
-
                     m_current_state = RUNNING;
                 }
             }
             break;
             case RUNNING:
-                // check the action triggers
+                // TODO (BAR): check the action triggers
+                m_current_state = INTERLUDE;
             break;
 
             case INTERLUDE:
+                m_current_state = EXIT;
             break;
 
             case EXIT:
@@ -82,7 +70,6 @@ void Level::heartbeat()
     {
         std::cout << "Level::heartbeat Killswitch signal -- shutting down" << std::endl;
 
-        exit(0);
     }
 }
 
@@ -233,7 +220,7 @@ bool Level::ParseJSON(std::ifstream& j_file)
 }
 
 /**
- * @brief Types a message to the user's terminal
+ * @brief Types a message to the players terminal
  *
  * @param msg string The message to be displayed
  *
@@ -251,11 +238,57 @@ bool Level::DisplayMessage(std::string& msg)
     return false;
 }
 
+/**
+ * @brief Display a message to the player terminal with a character delay
+ * This simulates the text being typed in realtime
+ *
+ * @param msg
+ * @param typeWriterDelay
+ * @return true
+ * @return false
+ */
+bool Level::DisplayMsgWithTypewriter(std::string msg, float typeWriterDelay)
+{
+    const long delay = (typeWriterDelay * 1E6);
+
+    std::ostringstream cmd;
+
+    int i = 0;
+    while(msg[i] != '\0')
+    {
+        if(msg[i] == ' ')
+        {
+            cmd << "echo -n \" \" > " << m_out_pts << std::endl;
+            i++;
+        }
+        else if(msg[i] == '\"') // TODO (BAR): Fix this, doesn't print quotes
+        {
+            cmd << "echo -n \\"" > " << m_out_pts << std::endl;
+            i++;
+        }
+        else
+        {
+            cmd << "echo -n " << msg[i++] << " > " << m_out_pts << std::endl;
+        }
+
+        system(cmd.str().c_str());
+
+        usleep(delay);
+
+        cmd.str("");
+        cmd.clear();
+    }
+
+    std::cout << std::endl;
+
+    return true;
+}
+
 bool Level::PrintNextScriptLine(std::vector<scriptLine>& script)
 {
     bool rc = false;
 
-    for (auto line : script)
+    for (auto& line : script)
     {
         if(line.printed)
         {
@@ -263,7 +296,7 @@ bool Level::PrintNextScriptLine(std::vector<scriptLine>& script)
         }
         else
         {
-            DisplayMessage(line.msg);
+            DisplayMsgWithTypewriter(line.msg, line.typeWriterDelay);
             line.printed = true;
             rc = true;
             break;
@@ -272,45 +305,3 @@ bool Level::PrintNextScriptLine(std::vector<scriptLine>& script)
 
     return rc;
 }
-
-// /**
-//  * @brief This test is outdated (5/7/2022) TODO(BAR): Move this to Unit Testing
-//  * @brief To start, call:
-//  * Level <registry.ini location> <level directory> <output terminal>
-//  *
-//  * @todo Do we need some getopt parameter parsing? It's not user accessible, so probably not
-//  *
-//  * @param argc
-//  * @param argv
-//  * @return int
-//  */
-// int main(int argc, char** argv)
-// {
-//     if(argc <= 4)
-//     {
-//         std::cout << "ERROR: Must supply a registry.ini location, level directory location and output pseudo-terminal" << std::endl;
-//         return -1;
-//     }
-//     std::string regDir = argv[1];
-//     std::string levelDir = argv[2];
-//     std::string out_pts = argv[3];
-
-//     Level *p_level;
-//     Registry p_registry(regDir);
-
-//     int levelID = p_registry.level->GetLevelID();
-//     if(checkForLevel(levelDir, levelID))
-//     {
-//         p_level = new Level(levelID, levelDir, GetStdoutFromCommand("tty"));
-//     }
-//     else
-//     {
-//         std::cout << "ERROR: Level file not found" << std::endl;
-//         return -1;
-//     }
-
-
-
-// exit_main:
-//     delete(p_level);
-// }

@@ -32,8 +32,8 @@ struct actionTrigger
 class Level {
 
 public:
-    Level();
-    ~Level();
+    Level() {}
+    ~Level() {}
 
     bool init(int levelId, std::string level_dir, std::string out_pts);
     void heartbeat();
@@ -51,6 +51,7 @@ public:
 private:
     bool ParseJSON(std::ifstream& j_file);
     bool DisplayMessage(std::string& msg);
+    bool DisplayMsgWithTypewriter(std::string msg, float typeWriterDelay);
     bool PrintNextScriptLine(std::vector<scriptLine>& script);
 
     levelState m_current_state;

@@ -3,11 +3,11 @@
     "Level":1,
     "XP-Gained":100,
     "Prelude-Script":[
-        {"TypewriterDelay":0.01, "msg":"When he awoke, his ears were still ringing..."},
-        {"TypewriterDelay":0.01, "msg":"slowly, he got to his feet and saw the blink of the cursor."},
-        {"TypewriterDelay":0.01, "msg":"\"Help, HELP!\" was written on a sticky note on the bottom of a monitor with keyboard nearby."},
-        {"TypewriterDelay":0.01, "msg":"\"Who --er WHAT, needs my help?\", he thought to himself."},
-        {"TypewriterDelay":0.01, "msg":"He decided to type in \"help\" to the console..."}
+        {"TypewriterDelay":0.05, "msg":"When he awoke, his ears were still ringing..."},
+        {"TypewriterDelay":0.05, "msg":"slowly, he got to his feet and saw the blink of the cursor."},
+        {"TypewriterDelay":0.05, "msg":"\"Help, HELP!\" was written on a sticky note on the bottom of a monitor with keyboard nearby."},
+        {"TypewriterDelay":0.05, "msg":"\"Who --er WHAT, needs my help?\", he thought to himself."},
+        {"TypewriterDelay":0.05, "msg":"He decided to type in \"help\" to the console..."}
     ],
     "Action-Triggers":
     [
@@ -19,7 +19,7 @@
     "Goal-Triggers": [ "pwd", "ls", "cd"],
     "Interlude-Script":
     [
-        {"TypewriterDelay":0.01, "msg":"I thought you would never come, my son... cough.. cough.."},
-        {"TypewriterDelay":0.01, "msg":"I'm trapped in this computer, and I need you to: _________"}
+        {"TypewriterDelay":0.05, "msg":"I thought you would never come, my son... cough.. cough.."},
+        {"TypewriterDelay":0.05, "msg":"I'm trapped in this computer, and I need you to: _________"}
     ]
 }

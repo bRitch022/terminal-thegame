@@ -12,7 +12,14 @@ bool Registry::init(const std::string iniFile)
     memset(&level, 0, sizeof(level));
 
     bool rc = read();
-    rc ? std::cout << "Registry::init(" << iniFile << ") | DEBUG | Registry Initialized" << std::endl : std::cout << "Registry Initialize Failure" << std::endl;
+    if(rc)
+    {
+        std::cout << "Registry::init(" << iniFile << ") | DEBUG | Registry Initialized" << std::endl;
+    }
+    else
+    {
+        std::cout << "Registry Initialize Failure" << std::endl;
+    }
     return rc;
 }
 

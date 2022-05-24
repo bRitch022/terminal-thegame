@@ -1,5 +1,7 @@
 // main.cpp
 
+#include <unistd.h>
+
 #include <string>
 #include <iostream>
 
@@ -66,10 +68,12 @@ int main(int argc, char** argv)
         g_EventMan.heartbeat();
 
         static int heartbeats = 0;
-        if(heartbeats++ >= 2)
+        if(heartbeats++ >= 10)
         {
             g_Reg.Kill();
         }
+
+        usleep(1E6);
     }
 
     return rc;
