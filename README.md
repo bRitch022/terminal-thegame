@@ -1,6 +1,11 @@
 # Terminal
 This is a Linux-teaching game engine. This framework can be built onto to teach other command line interfaces like MSDOS, CmdPrompt, PowerShell
 
+## Architecture
+![image](https://user-images.githubusercontent.com/45527355/169951253-a54a042e-7d09-4231-bd27-a1e891d3fa81.png)
+![image](https://user-images.githubusercontent.com/45527355/169951293-13ed7b9d-ab5a-4215-9085-44aa325f82ab.png)
+
+
 ## Dependancies
 * GNU g++ 9.4.0
 
