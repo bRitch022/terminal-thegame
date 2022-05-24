@@ -1,38 +1,54 @@
-// GameRegistryIni.h
+// RegistryIni.h
 
-#ifndef GAME_REG_H
-#define GAME_REG_H
+#ifndef REG_H
+#define REG_H
 
 #include <string>
 #include <fstream>
 #include <iniparser.hpp>
 #include "Player.h"
-#include "BASHEngine.h"
+#include "EventManager.h"
 #include "Level.h"
 
 struct Game
 {
     std::string version;
+    int level;
+    bool killswitch;
 };
 
-class GameRegistry {
-public:
-    GameRegistry(const std::string iniFile);
-    ~GameRegistry();
+typedef enum
+{
+    GAME, ENGINE, PLAYER
+} SECTION_T;
 
+class Registry {
+public:
+
+    Registry() {}
+    ~Registry() {}
+
+    bool init(const std::string iniFile);
+    bool heartbeat();
     bool read();
     bool update();
     void print();
-    void printINI();
+
+    bool GetGameLevel() { return game.level; }
+    bool GetKillSwitch() { return game.killswitch; }
+
+    void Kill() { game.killswitch = true; }
 
     Game game;
-    Player *player;
-    BASHEngine *BASHengine;
-    Level *level;
+    Player player;
+    Level level;
+    EventManager event_man;
 
 private:
-    const std::string m_iniFile;
+    std::string m_iniFile;
     INI::File m_iniHandler;
 };
+
+extern Registry g_Reg;
 
 #endif

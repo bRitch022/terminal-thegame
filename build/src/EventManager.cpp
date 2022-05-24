@@ -1,32 +1,29 @@
-// BASHEngine.cpp
+// EventManager.cpp
 
-#include "BASHEngine.h"
+#include "EventManager.h"
+#include "LinuxUtils.h"
 #include <fstream>
 #include <iostream>
 
-std::string BASHEngine::GetStdoutFromCommand(std::string cmd) {
+// EventManager::EventManager() : Manager("event") {}
 
-  std::string data;
-  FILE * stream;
-  const int max_buffer = 256;
-  char buffer[max_buffer];
-  cmd.append(" 2>&1");
-
-  stream = popen(cmd.c_str(), "r");
-
-  if (stream) {
-    while (!feof(stream))
-      if (fgets(buffer, max_buffer, stream) != NULL) data.append(buffer);
-    pclose(stream);
-  }
-  return data;
+/**
+ * @brief
+ * @todo @BAR
+ *
+ * @return true
+ * @return false
+ */
+bool EventManager::heartbeat()
+{
+    std::cout << "EventManager::heartbeat" << std::endl;
+    return true;
 }
-
 /**
  * @brief Read ~/.bash_history and obtain the last command entered by the user
  *
  */
-std::string BASHEngine::GetLastUserCommand_FromBashHistory()
+std::string EventManager::GetLastUserCommand_FromBashHistory()
 {
     std::string user = GetStdoutFromCommand("whoami");
 
@@ -38,7 +35,7 @@ std::string BASHEngine::GetLastUserCommand_FromBashHistory()
 
     if(!f_file)
     {
-        std::cout << "ERROR: Unable to open " + historyFile << std::endl;
+        std::cout << "EventManager::GetLastUserCommand_FromBashHistory | ERROR: Unable to open " + historyFile << std::endl;
         return "NULL";
     }
 
@@ -79,7 +76,16 @@ std::string BASHEngine::GetLastUserCommand_FromBashHistory()
  *
  * @param val
  */
-void BASHEngine::SetLastCommand_FromRegistry(std::string val)
+void EventManager::SetLastCommand_FromRegistry(std::string val)
 {
     m_lastUserCommand = val;
 }
+
+// bool EventManager::RegistryPoll()
+// {
+
+// }
+// bool EventManager::RegistryPush()
+// {
+
+// }

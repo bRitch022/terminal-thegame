@@ -3,21 +3,23 @@
     "Level":1,
     "XP-Gained":100,
     "Prelude-Script":[
-        {"TypewriterDelay":0.01, "msg":"When he awoke, his ears were still ringing..."},
-        {"TypewriterDelay":0.01, "msg":"slowly, he got to his feet and saw the blink of the cursor."}, 
-        {"TypewriterDelay":0.01, "msg":"\"Help, HELP!\" was written on a sticky note on the bottom of a monitor with keyboard nearby."}, 
-        {"TypewriterDelay":0.01, "msg":"\"Who --er WHAT, needs my help?\", he thought to himself."}, 
-        {"TypewriterDelay":0.01, "msg":"He decided to type in \"help\" to the console..."} 
+        {"TypewriterDelay":0.05, "msg":"When he awoke, his ears were still ringing..."},
+        {"TypewriterDelay":0.05, "msg":"slowly, he got to his feet and saw the blink of the cursor."},
+        {"TypewriterDelay":0.05, "msg":"\"Help, HELP!\" was written on a sticky note on the bottom of a monitor with keyboard nearby."},
+        {"TypewriterDelay":0.05, "msg":"\"Who --er WHAT, needs my help?\", he thought to himself."},
+        {"TypewriterDelay":0.05, "msg":"He decided to type in \"help\" to the console..."}
     ],
-    "Action-Triggers"
+    "Action-Triggers":
     [
-        {"TriggerType":"CommandLineInterface","Name":"help","TriggerAction":"print: \"You found the help command\""},
-        {"TriggerType":"CommandLineInterface","Name":"ls","TriggerAction":"print: \"You found the ls command\""},
-        {"TriggerType":"CommandLineInterface","Name":"cd","TriggerAction":"print: \"You found the cd command\""}
+        {"Name":"help", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the help command"},
+        {"Name":"pwd", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the pwd command"},
+        {"Name":"ls", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the ls command"},
+        {"Name":"cd", "TriggerType":"BashHistory","TriggerAction":"print","TriggerMessage":"You found the cd command"}
     ],
-    "Goal-Triggers": ["help", "ls", "cd"],
-    "Interlude-Script":[
-        {"TypewriterDelay":0.01, "msg":"I thought you would never come, my son... cough.. cough.."},
-        {"TypewriterDelay":0.01, "msg":"I'm trapped in this computer, and I need you to: _________"}
+    "Goal-Triggers": [ "pwd", "ls", "cd"],
+    "Interlude-Script":
+    [
+        {"TypewriterDelay":0.05, "msg":"I thought you would never come, my son... cough.. cough.."},
+        {"TypewriterDelay":0.05, "msg":"I'm trapped in this computer, and I need you to: _________"}
     ]
 }

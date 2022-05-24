@@ -15,6 +15,6 @@ int main(int argc, char** argv)
     sprintf(cmd, "docker run --hostname testGame -it --rm -u testuser %s", argv[1]);
     std::cout << cmd << std::endl;
     system(cmd);
-    
+
     return 0;
 }

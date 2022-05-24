@@ -3,8 +3,8 @@
 export OBJ_DIR 		= $(BUILD_DIR)obj/
 export BIN_DIR		= $(BUILD_DIR)bin/
 
-MKSOURCES += RegistryEngine.mk
-MKSOURCES += GameEngine.mk
+# MKSOURCES += EventManager.mk Deprecated for now (BAR): 5/7/2021
+MKSOURCES += Terminal.mk
 
 .PHONY: all clean
 
@@ -19,4 +19,4 @@ debug:
 all: release debug
 
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) ../game/bin/

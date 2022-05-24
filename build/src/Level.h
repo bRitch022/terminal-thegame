@@ -5,15 +5,20 @@
 
 #include <string>
 #include <vector>
-#include <fstream>
 
-struct script_line
+enum levelState
+{
+    START, PRELUDE, RUNNING, INTERLUDE, EXIT
+};
+
+struct scriptLine
 {
     float typeWriterDelay;
     std::string msg;
+    bool printed;
 };
 
-enum trigger_t { COMMAND_LINE_INTERFACE, SOMESHIT };
+enum trigger_t { BASH_HISTORY };
 enum trigger_action_t { PRINT };
 
 struct actionTrigger
@@ -21,24 +26,50 @@ struct actionTrigger
     trigger_t triggerType;
     std::string name;
     trigger_action_t triggerAction;
+    std::string triggerMessage;
 };
 
 class Level {
 
 public:
-    Level(std::string level_file) : m_levelFile(level_file) {}
+    Level() {}
     ~Level() {}
 
-    int level;
-    int xp_gained;
+    bool init(int levelId, std::string level_dir, std::string out_pts);
+    void heartbeat();
 
-    std::vector<script_line> prelude_script;
-    std::vector<script_line> interlude_script;
-    std::vector<actionTrigger> action_triggers;
-    std::vector<std::string> goal_triggers;
+    bool Launch(std::string levelFile);
+    void SetLevelID(int levelID) { m_levelID = levelID; }
+    int GetLevelID() { return m_levelID; }
+    int GetTriggerNum() { return goal_triggers.size(); }
+    int GetGrantedXP() { return m_grantedXP; }
+
+    void IncrementLevelID() { m_levelID++; } // TODO (BAR): Level validation
+    bool launched() { return m_launched; }
+    bool successful() { return m_successful; }
 
 private:
-    const std::string m_levelFile;
+    bool ParseJSON(std::ifstream& j_file);
+    bool DisplayMessage(std::string& msg);
+    bool DisplayMsgWithTypewriter(std::string msg, float typeWriterDelay);
+    bool PrintNextScriptLine(std::vector<scriptLine>& script);
+
+    levelState m_current_state;
+
+    int m_levelID;
+    int m_grantedXP;
+
+    int m_launched;   //< true: a level thread has been launched
+    int m_successful; //< true: the player has completed all objectives of the level
+
+    std::vector<scriptLine> prelude_script;
+    std::vector<scriptLine> interlude_script;
+    std::vector<int> test;
+
+    std::vector<actionTrigger> action_triggers;
+    std::vector<std::string> goal_triggers;
+    std::string m_level_dir; //< name of the directory where the level json files are stored
+    std::string m_out_pts; //< name of the psuedo-terminal that the user is logged in on
 
 };
 
